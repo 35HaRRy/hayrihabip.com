@@ -1,0 +1,65 @@
+<header class="header text-center">
+  <h1 class="blog-name pt-lg-4 mb-0">
+    <a routerLink="/index" routerLinkActive="active">
+      Hayri HABİP
+    </a>
+  </h1>
+  <nav class="navbar navbar-expand-lg navbar-dark">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation" aria-controls="navigation" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div id="navigation" class="collapse navbar-collapse flex-column" >
+      <div class="profile-section pt-3 pt-lg-0">
+        <img class="profile-image mb-3 rounded-circle mx-auto" src="assets/images/profile.png" alt="image" >
+
+        <div class="bio mb-3">
+          Yazılımın her aşamasına meraklıyım. Herhangi bir soruna yazılımlar ile çözüm bulmaktan keyif alıyorum.
+          <br>
+          <a routerLink="/about" routerLinkActive="active">Benim hakkımda daha fazlası için</a>
+        </div><!--//bio-->
+        <ul class="social-list list-inline py-3 mx-auto">
+          <li class="list-inline-item">
+            <a target="_blank" href="https://www.linkedin.com/in/hayri-habip/">
+              <fa-icon [icon]="['fab', 'linkedin']"></fa-icon>
+            </a>
+          </li>
+          <li class="list-inline-item">
+            <a target="_blank" href="https://github.com/35HaRRy">
+              <fa-icon [icon]="['fab', 'github']" class="fa-fw"></fa-icon>
+            </a>
+          </li>
+          <li class="list-inline-item">
+            <a target="_blank" href="https://twitter.com/35_HaRRy">
+              <fa-icon [icon]="['fab', 'twitter']" class="fa-fw"></fa-icon>
+            </a>
+          </li>
+        </ul><!--//social-list-->
+        <hr>
+      </div><!--//profile-section-->
+
+      <ul class="navbar-nav flex-column text-left">
+        <li [ngClass]="{'nav-item': true, 'active': currentRoute === '/' || currentRoute === '/index'}">
+          <a class="nav-link" routerLink="/index" routerLinkActive="active">
+            <fa-icon [icon]="['fas', 'home']" class="fa-fw mr-2"></fa-icon>
+            Anasayfa
+            <span class="sr-only">
+              (current)
+            </span>
+          </a>
+        </li>
+        <li [ngClass]="{'nav-item': true, 'active': currentRoute.startsWith('/blog-post')}">
+          <a class="nav-link" routerLink="/blog-post/latest" routerLinkActive="active">
+            <fa-icon [icon]="['fas', 'bookmark']" class="fa-fw mr-2"></fa-icon>
+            Blog Post
+          </a>
+        </li>
+        <li [ngClass]="{'nav-item': true, 'active': currentRoute === '/about'}">
+          <a class="nav-link" routerLink="/about" routerLinkActive="active">
+            <fa-icon [icon]="['fas', 'user']" class="fa-fw mr-2"></fa-icon>
+            Hakkımda
+          </a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+</header>
