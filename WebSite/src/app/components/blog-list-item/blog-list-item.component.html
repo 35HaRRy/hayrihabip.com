@@ -3,7 +3,7 @@
     <img class="mr-3 img-fluid post-thumb /*d-none*/ d-md-flex" src="assets/images/blog/blog-post-thumb-1.jpg" alt="image">
     <div class="media-body">
       <h3 class="title mb-1">
-        <a routerLink="/blog-post" routerLinkActive="active">
+        <a [routerLink]="['/blog-post', data.id]" routerLinkActive="active">
           {{ data.title }}
         </a>
       </h3>
@@ -13,7 +13,7 @@
       <div class="intro">
         {{ data.intro }}
       </div>
-      <a class="more-link" routerLink="/blog-post" routerLinkActive="active">
+      <a class="more-link" [routerLink]="['/blog-post', data.id]" routerLinkActive="active">
         Read more &rarr;
       </a>
     </div>

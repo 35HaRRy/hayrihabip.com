@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: hayrihabip
+      tier: backend
+      track: stable
+  template:
+    metadata:
+      labels:
+        app: hayrihabip
+        tier: backend
+        track: stable
+    spec:
+      containers:
+      - name: hayrihabip-container
+        image: 35hhcontainers.azurecr.io/hayrihabip-api:#{tag}#
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 80

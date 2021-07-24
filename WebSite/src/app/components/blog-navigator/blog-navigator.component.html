@@ -1,10 +1,39 @@
 <nav class="blog-nav nav nav-justified my-5">
-  <a class="nav-link-prev nav-item nav-link /*d-none*/ rounded-left" href="#">
-    Previous
-    <fa-icon [icon]="['fas', 'long-arrow-alt-left']" class="arrow-prev"></fa-icon>
-  </a>
-  <a class="nav-link-next nav-item nav-link rounded" routerLink="/blog-post" routerLinkActive="active">
-    Next
-    <fa-icon [icon]="['fas', 'long-arrow-alt-right']" class="arrow-next"></fa-icon>
-  </a>
+  <ng-container *ngIf="isForList; then list else page"></ng-container>
+  <ng-template #list>
+    <a
+      [ngClass]="{'nav-link-prev': true, 'nav-item nav-link': true, 'rounded-left': true, 'd-none': pager!.PageIndex == 0}"
+      routerLink="/index" [queryParams]="{ pageIndex: pager!.PageIndex - 1, pageSize: pager!.PageSize }"
+      routerLinkActive="active"
+    >
+      Previous
+      <fa-icon [icon]="['fas', 'long-arrow-alt-left']" class="arrow-prev"></fa-icon>
+    </a>
+    <a
+      [ngClass]="{'nav-link-next': true, 'nav-item nav-link': true, 'rounded': true, 'd-none': pager!.PageIndex + 1 === pager!.TotalPageCount}"
+      routerLink="/index" [queryParams]="{ pageIndex: pager!.PageIndex + 1, pageSize: pager!.PageSize }"
+      routerLinkActive="active"
+    >
+      Next
+      <fa-icon [icon]="['fas', 'long-arrow-alt-right']" class="arrow-next"></fa-icon>
+    </a>
+  </ng-template>
+  <ng-template #page>
+    <a
+      [ngClass]="{'nav-link-prev': true, 'nav-item nav-link': true, 'rounded-left': true, 'd-none': !navigator!.previousPost}"
+      [routerLink]="['/blog-post', navigator!.previousPost!.id ?? 'latest']"
+      routerLinkActive="active"
+    >
+      Previous
+      <fa-icon [icon]="['fas', 'long-arrow-alt-left']" class="arrow-prev"></fa-icon>
+    </a>
+    <a
+      [ngClass]="{'nav-link-next': true, 'nav-item nav-link': true, 'rounded': true, 'd-none': !navigator!.nextPost}"
+      [routerLink]="['/blog-post', navigator!.nextPost!.id ?? 'latest']"
+      routerLinkActive="active"
+    >
+      Next
+      <fa-icon [icon]="['fas', 'long-arrow-alt-right']" class="arrow-next"></fa-icon>
+    </a>
+  </ng-template>
 </nav>

@@ -1,5 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 
+import { BlogPost } from '../../pages/blog-post/blogPost';
+
 @Component({
   selector: 'app-blog-list-item',
   templateUrl: './blog-list-item.component.html',
@@ -10,15 +12,7 @@ import { Component, Input, OnInit } from '@angular/core';
 
 export class BlogListItemComponent implements OnInit {
   @Input()
-  data!: {
-    title: string;
-    intro: string;
-    info: {
-      publishDate: string;
-      readMin: string;
-      commentCount: number;
-    }
-  };
+  data!: BlogPost;
 
   constructor() {
   }

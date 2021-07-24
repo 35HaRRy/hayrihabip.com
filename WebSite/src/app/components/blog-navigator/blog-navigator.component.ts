@@ -1,5 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
 
+import { PostNavigator } from './blog-navigator';
+
+import { Pager } from '../../tools/request/Pager';
+
 @Component({
   selector: 'app-blog-navigator',
   templateUrl: './blog-navigator.component.html',
@@ -10,7 +14,13 @@ import { Component, Input, OnInit } from '@angular/core';
 
 export class BlogNavigatorComponent implements OnInit {
   @Input()
-  isForList: boolean = false;
+  navigator?: PostNavigator;
+
+  @Input()
+  pager?: Pager;
+
+  @Input()
+  isForList!: boolean;
 
   constructor() {
   }

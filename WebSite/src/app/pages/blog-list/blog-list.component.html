@@ -1,7 +1,9 @@
 <section class="blog-list px-3 py-5 p-md-5">
   <div class="container">
-    <app-blog-list-item [data]="item"></app-blog-list-item>
-    <app-blog-navigator [isForList]="true"></app-blog-navigator>
+    <ng-template ngFor let-post [ngForOf]="posts">
+      <app-blog-list-item [data]="post"></app-blog-list-item>
+    </ng-template>
+    <app-blog-navigator [pager]="pager" [isForList]="true"></app-blog-navigator>
   </div>
 </section>
 <footer class="footer text-center py-2 theme-bg-dark"></footer>

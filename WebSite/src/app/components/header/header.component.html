@@ -38,7 +38,7 @@
       </div><!--//profile-section-->
 
       <ul class="navbar-nav flex-column text-left">
-        <li [ngClass]="{'nav-item': true, 'active': currentRoute === '/' || currentRoute === '/index'}">
+        <li [ngClass]="{'nav-item': true, 'active': currentRoute.startsWith('/') || currentRoute.startsWith('/index')}">
           <a class="nav-link" routerLink="/index" routerLinkActive="active">
             <fa-icon [icon]="['fas', 'home']" class="fa-fw mr-2"></fa-icon>
             Anasayfa

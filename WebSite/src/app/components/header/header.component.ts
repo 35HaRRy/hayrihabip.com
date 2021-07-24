@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, NavigationEnd  } from '@angular/router';
+import { Router, NavigationEnd, ParamMap } from '@angular/router';
+
+import { Observable } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-header',
@@ -11,13 +14,13 @@ import { Router, NavigationEnd  } from '@angular/router';
 export class HeaderComponent implements OnInit {
   currentRoute = '/';
 
-  constructor(private router: Router) {
-    router.events.forEach(event => {
-      if(event instanceof NavigationEnd)
-        this.currentRoute = event.url;
-    });
+  constructor(private route: Router) {
   }
 
   ngOnInit(): void {
+    this.route.events.forEach(event => {
+      if(event instanceof NavigationEnd)
+        this.currentRoute = event.url;
+    });
   }
 }

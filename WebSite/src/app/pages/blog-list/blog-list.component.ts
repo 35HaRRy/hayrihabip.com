@@ -1,9 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
+import { BlogPost } from '../blog-post/blogPost';
+import { BlogListService } from './blog-list.service';
+
+import { getEmptyPager, Page, Pager } from '../../tools/request/Pager';
+
 @Component({
   selector: 'app-blog-list',
   templateUrl: './blog-list.component.html',
+  providers: [
+    BlogListService
+  ],
   styleUrls: [
     './blog-list.component.scss'
   ]
@@ -12,20 +20,31 @@ import { ActivatedRoute } from '@angular/router';
 export class BlogListComponent implements OnInit {
   isIndex = false;
 
-  item = {
-    title: 'Why Every Developer Should Have A Blog',
-    intro: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies...',
-    info: {
-      publishDate: '2 days ago',
-      readMin: '5 min',
-      commentCount: 8
-    }
-  };
+  pager: Pager = getEmptyPager();
+  posts: BlogPost[] = [];
 
-  constructor(private activatedroute: ActivatedRoute) {
+  constructor(private activatedRoute: ActivatedRoute, private blogListService: BlogListService) {
   }
 
   ngOnInit(): void {
-    this.activatedroute.data.subscribe(data => this.isIndex = data.isIndex)
+    this.activatedRoute.data.subscribe(data => this.isIndex = data.isIndex);
+
+    this.activatedRoute.queryParams.subscribe(params =>
+      this.getPage({
+        PageIndex: Number(params["pageIndex"] ?? "0"),
+        PageSize: Number(params["pageSize"] ?? "25")
+      })
+    );
+  }
+
+  getPage(currentPage: Page) {
+    this.blogListService
+      .getPage(currentPage)
+      .subscribe(pager => {
+        const { Rows, ...pagerWithOutRows } = pager;
+
+        this.pager = pagerWithOutRows;
+        this.posts = Rows ?? [];
+      });
   }
 }
