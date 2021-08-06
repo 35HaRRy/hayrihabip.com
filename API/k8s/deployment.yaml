@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
       - name: hayrihabip-container
-        image: 35hhcontainers.azurecr.io/hayrihabip-api:#{tag}#
+        image: 35hhcontainers.azurecr.io/api.hayrihabip.com:0.0.1
         imagePullPolicy: Always
         ports:
         - containerPort: 80

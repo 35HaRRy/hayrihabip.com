@@ -28,6 +28,7 @@ import { HeaderComponent } from '../components/header/header.component';
 import { BlogListItemComponent } from '../components/blog-list-item/blog-list-item.component';
 import { BlogPostInfoComponent } from '../components/blog-post-info/blog-post-info.component';
 import { BlogNavigatorComponent } from '../components/blog-navigator/blog-navigator.component';
+import { BlogPostItemComponent } from '../components/blog-post-item/blog-post-item.component';
 
 @NgModule({
   declarations: [
@@ -35,6 +36,7 @@ import { BlogNavigatorComponent } from '../components/blog-navigator/blog-naviga
     HeaderComponent,
     BlogListComponent,
     BlogPostComponent,
+    BlogPostItemComponent,
     BlogListItemComponent,
     BlogPostInfoComponent,
     BlogNavigatorComponent,

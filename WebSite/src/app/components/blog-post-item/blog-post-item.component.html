@@ -1,0 +1,83 @@
+<ng-template ngFor let-item [ngForOf]="data">
+  <ng-container *ngIf="typeOf(item) == 'string'; then text else component"></ng-container>
+  <ng-template #text>
+    {{ item }}
+  </ng-template>
+  <ng-template #component>
+    <container-element [ngSwitch]="$any(item).component">
+      <figure *ngSwitchCase="'figure'" [class]="$any(item).attributes?.className">
+        <app-blog-post-item [data]="$any(item).children"></app-blog-post-item>
+      </figure>
+      <figcaption *ngSwitchCase="'figcaption'" [class]="$any(item).attributes?.className">
+        <app-blog-post-item [data]="$any(item).children"></app-blog-post-item>
+      </figcaption>
+      <a *ngSwitchCase="'a'" [class]="$any(item).attributes?.className" [href]="$any(item).attributes?.href" [target]="$any(item).attributes?.target">
+        <app-blog-post-item [data]="$any(item).children"></app-blog-post-item>
+      </a>
+      <img *ngSwitchCase="'img'" [class]="$any(item).attributes?.className" [src]="$any(item).attributes?.src" [alt]="$any(item).attributes?.alt">
+      <p *ngSwitchCase="'p'" [class]="$any(item).attributes?.className">
+        <app-blog-post-item [data]="$any(item).children"></app-blog-post-item>
+      </p>
+      <h3 *ngSwitchCase="'h3'" [class]="$any(item).attributes?.className">
+        <app-blog-post-item [data]="$any(item).children"></app-blog-post-item>
+      </h3>
+      <h5 *ngSwitchCase="'h5'" [class]="$any(item).attributes?.className">
+        <app-blog-post-item [data]="$any(item).children"></app-blog-post-item>
+      </h5>
+      <ul *ngSwitchCase="'ul'" [class]="$any(item).attributes?.className">
+        <app-blog-post-item [data]="$any(item).children"></app-blog-post-item>
+      </ul>
+      <ol *ngSwitchCase="'ol'" [class]="$any(item).attributes?.className">
+        <app-blog-post-item [data]="$any(item).children"></app-blog-post-item>
+      </ol>
+      <li *ngSwitchCase="'li'" [class]="$any(item).attributes?.className">
+        <app-blog-post-item [data]="$any(item).children"></app-blog-post-item>
+      </li>
+      <blockquote *ngSwitchCase="'blockquote'" [class]="$any(item).attributes?.className">
+        <app-blog-post-item [data]="$any(item).children"></app-blog-post-item>
+      </blockquote>
+      <footer *ngSwitchCase="'footer'" [class]="$any(item).attributes?.className">
+        <app-blog-post-item [data]="$any(item).children"></app-blog-post-item>
+      </footer>
+      <div *ngSwitchCase="'div'" [class]="$any(item).attributes?.className">
+        <app-blog-post-item [data]="$any(item).children"></app-blog-post-item>
+      </div>
+      <pre *ngSwitchCase="'code'" [class]="$any(item).attributes?.className">
+        <code [highlight]="$any(item).children[0]" [lineNumbers]="true"></code>
+      </pre>
+      <ngx-tweet *ngSwitchCase="'tweet'" [tweetId]="$any(item).attributes?.tweetId"></ngx-tweet>
+      <iframe *ngSwitchCase="'video'" width="560" height="315" [src]="$any(item).attributes?.src" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      <table *ngSwitchCase="'table'" [class]="$any(item).attributes?.className">
+        <thead>
+          <tr>
+            <th scope="col">
+              #
+            </th>
+            <ng-template ngFor let-key [ngForOf]="keysOf($any(item).attributes?.rows[0])">
+              <th scope="col">
+                {{ key }}
+              </th>
+            </ng-template>
+          </tr>
+        </thead>
+        <tbody>
+          <ng-template ngFor let-row [ngForOf]="$any(item).attributes?.rows" let-index="index">
+            <tr>
+              <th scope="row">
+                {{ index }}
+              </th>
+              <ng-template ngFor let-rowKey [ngForOf]="keysOf(row)">
+                <td>
+                  {{ row[rowKey] }}
+                </td>
+              </ng-template>
+            </tr>
+          </ng-template>
+        </tbody>
+      </table>
+      <div *ngSwitchDefault>
+        {{ $any(item).component }}
+      </div>
+    </container-element>
+  </ng-template>
+</ng-template>

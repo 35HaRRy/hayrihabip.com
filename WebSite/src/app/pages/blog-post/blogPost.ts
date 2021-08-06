@@ -1,8 +1,8 @@
 import { PostNavigator } from "../../components/blog-navigator/blog-navigator";
 
 export interface BlogPost {
-  id: Number;
-  body?: string;
+  id: number;
+  body?: BlogPostItem[];
   info: {
     publishDate: string;
     readMin: string;
@@ -11,4 +11,12 @@ export interface BlogPost {
   intro: string;
   navigator: PostNavigator;
   title: string;
-};
+}
+
+export interface BlogPostItem {
+  component: string;
+  attributes?: {
+    [key: string]: any;
+  };
+  children?: (string | BlogPostItem)[];
+}

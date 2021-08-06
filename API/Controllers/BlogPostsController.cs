@@ -1,61 +1,87 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.ServiceModel.Syndication;
 using System.Text;
+using System.Threading.Tasks;
 using System.Xml;
+using System.Xml.Linq;
 
 using Microsoft.AspNetCore.Mvc;
 
+using Microsoft.Extensions.Configuration;
+
+using MongoDB.Driver;
+
 using Entities;
-using System.Xml.Linq;
+using BLL;
 
 namespace API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class BlogsController : ControllerBase
+    public class BlogPostsController : ControllerBase
     {
-        List<BlogPosts> Posts = new List<BlogPosts>()
-        {
-            new BlogPosts()
-            {
-                Id = 1,
-                ImageName = "blog-post-thumb-1.jpg",
-                Info = new Infos()
-                {
-                    CommentCount = 0,
-                    PublishDate = DateTime.Now,
-                    ReadMin = "5 mins"
-                },
-                Intro = "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies...",
-                Title = "Why Every Developer Should Have A Blog",
-            }
-        };
-        
+        IConfiguration Configuration;
+        IMongoDatabase DataBase;
+                
         string baseClientPath = "https://blog.hayrihabip.com/";
 
-        [HttpGet]
-        public ActionResult<Pager<BlogPosts>> GetPage([FromQuery] int pageSize, [FromQuery] int pageIndex)
+        public BlogPostsController(IConfiguration configuration)
         {
+            Configuration = configuration;
+
+            DataBase = new BlogPostBLL().ConnectToDB(Configuration);
+        }
+
+        [HttpGet]
+        public async Task<ActionResult<Pager<BlogPosts>>> GetPageAsync([FromQuery] int pageSize, [FromQuery] int pageIndex)
+        {
+            var sorter = Builders<BlogPosts>.Sort.Ascending(post => post.Id);
+
+            var allRows = DataBase
+                .GetCollection<BlogPosts>("post")
+                .Find(FilterDefinition<BlogPosts>.Empty)
+                .Sort(sorter);
+            var rows = await allRows
+                .Skip(pageSize * pageSize)
+                .Limit(pageSize)
+                .ToListAsync();
+
+            var totalRowCount = await allRows.CountDocumentsAsync();
+
             return Ok(new Pager<BlogPosts>()
             {
-                PageSize = 25,
-                PageIndex = 0,
-                ShowingFirstRowIndex = 0,
-                ShowingLastRowIndex = 0,
-                TotalPageCount = 1,
-                TotalRecord = 0,
-                ViewingRecord = 0,
-                Rows = Posts
+                PageSize = pageSize,
+                PageIndex = pageIndex,
+                ShowingFirstRowIndex = pageSize * pageSize + 1,
+                ShowingLastRowIndex = rows.Count + (pageSize * pageSize) + 1,
+                TotalPageCount = (long)Math.Floor(totalRowCount / (decimal)pageSize),
+                TotalRecord = totalRowCount,
+                ViewingRecord = rows.Count,
+                Rows = rows
             });
         }
 
         // GET api/Blogs/5
         [HttpGet("{id}")]
-        public ActionResult<APIResult<BlogPosts>> GetById(int id)
+        public ActionResult<APIResult<BlogPosts>> GetById(string id)
         {
-            var post = Posts.Find(post => post.Id == id);
+            var postFilter = Builders<BlogPosts>.Filter.Eq("Id", id);
+            var bodyFilter = Builders<BlogPostItems>.Filter.Eq("BlogPostId", id);
+
+            var post = DataBase
+                .GetCollection<BlogPosts>("post")
+                .FindSync<BlogPosts>(postFilter)
+                .FirstOrDefault();
+            var foundBody = DataBase
+                .GetCollection<BlogPostItems>("bodyItems")
+                .FindSync<BlogPostItems>(bodyFilter);
+
+            if (foundBody.Current != null)
+                post.Body = foundBody.ToList();
+
             if (post != null)
                 return Ok(new APIResult<BlogPosts>()
                 {
@@ -84,8 +110,12 @@ namespace API.Controllers
             feed.ImageUrl = new Uri(baseClientPath + "assets/images/profile.png");
             feed.Copyright = new TextSyndicationContent($"{DateTime.Now.Year} Hayri HABİP");
 
+            var posts = DataBase
+                .GetCollection<BlogPosts>("post")
+                .FindSync<BlogPosts>(FilterDefinition<BlogPosts>.Empty)
+                .ToList();                
+
             var items = new List<SyndicationItem>();
-            var posts = Posts;
 
             foreach (var post in posts)
             {

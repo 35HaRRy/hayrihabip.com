@@ -4,13 +4,13 @@ namespace Entities
 {
     public class Pager<T>
     {
-        public int PageSize { get; set; }
-        public int PageIndex { get; set; }
+        public long PageSize { get; set; }
+        public long PageIndex { get; set; }
         public List<T> Rows { get; set; }
-        public int ShowingFirstRowIndex { get; set; }
-        public int ShowingLastRowIndex { get; set; }
-        public int TotalPageCount { get; set; }
-        public int TotalRecord { get; set; }
-        public int ViewingRecord { get; set; }
+        public long ShowingFirstRowIndex { get; set; }
+        public long ShowingLastRowIndex { get; set; }
+        public long TotalPageCount { get; set; }
+        public long TotalRecord { get; set; }
+        public long ViewingRecord { get; set; }
     }
 }
