@@ -38,7 +38,7 @@ namespace API.Controllers
         [HttpGet]
         public async Task<ActionResult<Pager<BlogPosts>>> GetPageAsync([FromQuery] int pageSize, [FromQuery] int pageIndex)
         {
-            var sorter = Builders<BlogPosts>.Sort.Ascending(post => post.Id);
+            var sorter = Builders<BlogPosts>.Sort.Descending(post => post.RegDate);
 
             var allRows = DataBase
                 .GetCollection<BlogPosts>("post")
@@ -68,26 +68,16 @@ namespace API.Controllers
         [HttpGet("{id}")]
         public ActionResult<APIResult<BlogPosts>> GetById(string id)
         {
-            var postFilter = Builders<BlogPosts>.Filter.Eq("Id", id);
-            var bodyFilter = Builders<BlogPostItems>.Filter.Eq("BlogPostId", id);
-
-            var post = DataBase
-                .GetCollection<BlogPosts>("post")
-                .FindSync<BlogPosts>(postFilter)
-                .FirstOrDefault();
-            var foundBody = DataBase
-                .GetCollection<BlogPostItems>("bodyItems")
-                .FindSync<BlogPostItems>(bodyFilter);
-
-            if (foundBody.Current != null)
-                post.Body = foundBody.ToList();
+            var post = new BlogPostBLL().GetById(Configuration, id);
 
             if (post != null)
+            {
                 return Ok(new APIResult<BlogPosts>()
                 {
                     MessageType = 1,
                     Result = post
                 });
+            }
             else
                 return NotFound(new APIResult<BlogPosts>()
                 {

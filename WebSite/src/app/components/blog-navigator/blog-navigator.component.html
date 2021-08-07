@@ -20,16 +20,16 @@
   </ng-template>
   <ng-template #page>
     <a
-      [ngClass]="{'nav-link-prev': true, 'nav-item nav-link': true, 'rounded-left': true, 'd-none': !navigator!.previousPost}"
-      [routerLink]="['/blog-post', navigator!.previousPost!.id ?? 'latest']"
+      [ngClass]="{'nav-link-prev': true, 'nav-item nav-link': true, 'rounded-left': true, 'd-none': !navigator!.previousPostId}"
+      [routerLink]="['/blog-post', navigator!.previousPostId ?? 'latest']"
       routerLinkActive="active"
     >
       Previous
       <fa-icon [icon]="['fas', 'long-arrow-alt-left']" class="arrow-prev"></fa-icon>
     </a>
     <a
-      [ngClass]="{'nav-link-next': true, 'nav-item nav-link': true, 'rounded': true, 'd-none': !navigator!.nextPost}"
-      [routerLink]="['/blog-post', navigator!.nextPost!.id ?? 'latest']"
+      [ngClass]="{'nav-link-next': true, 'nav-item nav-link': true, 'rounded': true, 'd-none': !navigator!.nextPostId}"
+      [routerLink]="['/blog-post', navigator!.nextPostId ?? 'latest']"
       routerLinkActive="active"
     >
       Next

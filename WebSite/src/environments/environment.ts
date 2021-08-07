@@ -4,7 +4,8 @@
 
 export const environment = {
   production: false,
-  apiPath: 'http://localhost/api.hayrihabip.com/api/'
+  // apiPath: 'http://localhost/api.hayrihabip.com/api/'
+  apiPath: 'http://localhost:58675/api/'
 };
 
 /*

@@ -1,7 +1,7 @@
 import { PostNavigator } from "../../components/blog-navigator/blog-navigator";
 
 export interface BlogPost {
-  id: number;
+  id: string;
   body?: BlogPostItem[];
   info: {
     publishDate: string;
@@ -14,9 +14,12 @@ export interface BlogPost {
 }
 
 export interface BlogPostItem {
+  id: string;
+  blogPostId: string;
   component: string;
   attributes?: {
     [key: string]: any;
   };
   children?: (string | BlogPostItem)[];
+  sortIndex: number;
 }

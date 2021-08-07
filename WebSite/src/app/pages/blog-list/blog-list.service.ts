@@ -36,7 +36,7 @@ export class BlogListService {
         catchError(this.handleError('getBlogPosts', getEmptyPager<BlogPost>()))
       );
   }
-  getById = (id: Number): Observable<APIResult<BlogPost>> => this.http
+  getById = (id: string): Observable<APIResult<BlogPost>> => this.http
     .get<APIResult<BlogPost>>(`${this.listUrl}/${id}`)
     .pipe(
       catchError(this.handleError('getBlogPostById', ErrorAPIResult))

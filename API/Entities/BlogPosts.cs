@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 using MongoDB.Bson;
@@ -15,5 +16,8 @@ namespace Entities
         public string ImageName { get; set; }
         public Infos Info { get; set; }
         public List<BlogPostItems> Body { get; set; }
+        public DateTime RegDate { get; set; }
+        public string PreviousPostId { get; set; }
+        public string NextPostId { get; set; }
     }
 }
