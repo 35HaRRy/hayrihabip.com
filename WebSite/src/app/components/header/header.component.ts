@@ -1,8 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, NavigationEnd, ParamMap } from '@angular/router';
-
-import { Observable } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
+import { Router, NavigationEnd } from '@angular/router';
 
 @Component({
   selector: 'app-header',

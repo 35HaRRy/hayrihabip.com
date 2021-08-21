@@ -5,8 +5,9 @@ namespace Entities
 {
     public class Infos
     {
-        public DateTime PublishDate { get; set; }
-        public string ReadMin { get; set; }
-        public int CommentCount { get; set; }
+        public DateTime regDate { get; set; }
+        public string publishDate { get; set; }
+        public string readMin { get; set; }
+        public int commentCount { get; set; }
     }
 }

@@ -6,15 +6,13 @@ import { catchError } from 'rxjs/operators';
 
 import { BlogPost } from '../blog-post/blogPost';
 
-import { environment } from '../../../environments/environment';
-
 import { HttpErrorHandler, HandleError } from '../../tools/request/http-error-handler.service';
 import { Pager, getEmptyPager, Page } from '../../tools/request/Pager';
 import { APIResult, ErrorAPIResult } from '../../tools/request/APIResult';
 
 @Injectable()
 export class BlogListService {
-  listUrl = `${environment.apiPath}/BlogPosts`;
+  listUrl = `api/BlogPosts`;
 
   private handleError: HandleError;
 

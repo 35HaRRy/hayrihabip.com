@@ -72,10 +72,12 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "hayrihabip.com:build:production"
+              "browserTarget": "hayrihabip.com:build:production",
+              "proxyConfig": "src/app/setup/proxy.prod.conf.json"
             },
             "development": {
-              "browserTarget": "hayrihabip.com:build:development"
+              "browserTarget": "hayrihabip.com:build:development",
+              "proxyConfig": "src/app/setup/proxy.dev.conf.json"
             }
           },
           "defaultConfiguration": "development"

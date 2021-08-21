@@ -53,10 +53,11 @@ namespace API
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory logFactory)
         {
             if (env.IsProduction())
-                app.UseHsts();
+                app
+                .UseHttpsRedirection()
+                .UseHsts();
                 
             app
-                .UseHttpsRedirection()
                 .UseStaticFiles() // For the wwwroot folder
                 .UseRouting()
                 .UseEndpoints(endpoints => endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}"));

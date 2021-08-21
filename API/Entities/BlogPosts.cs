@@ -10,14 +10,18 @@ namespace Entities
     {
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
-        public string Id { get; set; }
-        public string Title { get; set; }
-        public string Intro { get; set; }
-        public string ImageName { get; set; }
-        public Infos Info { get; set; }
-        public List<BlogPostItems> Body { get; set; }
-        public DateTime RegDate { get; set; }
-        public string PreviousPostId { get; set; }
-        public string NextPostId { get; set; }
+        public string id { get; set; }
+        public string title { get; set; }
+        public string intro { get; set; }
+        public string imageName { get; set; }
+        public Infos info { get; set; }
+        public List<BlogPostItems> body { get; set; }
+        public Navigators navigator { get; set; }
+    }
+
+    public class Navigators
+    {
+        public string previousPostId { get; set; }
+        public string nextPostId { get; set; }
     }
 }

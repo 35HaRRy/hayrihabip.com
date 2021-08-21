@@ -1,0 +1,9 @@
+{
+  "/api": {
+    "target": "https://api.hayrihabip.com/",
+    "secure": true,
+    "pathRewrite": {
+      "^/api": ""
+    }
+  }
+}

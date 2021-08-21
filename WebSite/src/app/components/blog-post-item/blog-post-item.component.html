@@ -18,12 +18,18 @@
       <p *ngSwitchCase="'p'" [class]="$any(item).attributes?.className">
         <app-blog-post-item [data]="$any(item).children"></app-blog-post-item>
       </p>
+      <h1 *ngSwitchCase="'h1'" [class]="$any(item).attributes?.className">
+        <app-blog-post-item [data]="$any(item).children"></app-blog-post-item>
+      </h1>
       <h3 *ngSwitchCase="'h3'" [class]="$any(item).attributes?.className">
         <app-blog-post-item [data]="$any(item).children"></app-blog-post-item>
       </h3>
       <h5 *ngSwitchCase="'h5'" [class]="$any(item).attributes?.className">
         <app-blog-post-item [data]="$any(item).children"></app-blog-post-item>
       </h5>
+      <strong *ngSwitchCase="'strong'" [class]="$any(item).attributes?.className">
+        <app-blog-post-item [data]="$any(item).children"></app-blog-post-item>
+      </strong>
       <ul *ngSwitchCase="'ul'" [class]="$any(item).attributes?.className">
         <app-blog-post-item [data]="$any(item).children"></app-blog-post-item>
       </ul>
@@ -42,8 +48,9 @@
       <div *ngSwitchCase="'div'" [class]="$any(item).attributes?.className">
         <app-blog-post-item [data]="$any(item).children"></app-blog-post-item>
       </div>
+      <fa-icon *ngSwitchCase="'icon'" [class]="$any(item).attributes?.className" [icon]="$any(item).attributes?.icon" class="fa-fw"></fa-icon>
       <pre *ngSwitchCase="'code'" [class]="$any(item).attributes?.className">
-        <code [highlight]="$any(item).children[0]" [lineNumbers]="true"></code>
+        <code [highlight]="$any(item).children[0]" [languages]="$any(item).attributes?.languages" [lineNumbers]="true"></code>
       </pre>
       <ngx-tweet *ngSwitchCase="'tweet'" [tweetId]="$any(item).attributes?.tweetId"></ngx-tweet>
       <iframe *ngSwitchCase="'video'" width="560" height="315" [src]="$any(item).attributes?.src" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>

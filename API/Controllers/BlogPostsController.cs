@@ -38,16 +38,19 @@ namespace API.Controllers
         [HttpGet]
         public async Task<ActionResult<Pager<BlogPosts>>> GetPageAsync([FromQuery] int pageSize, [FromQuery] int pageIndex)
         {
-            var sorter = Builders<BlogPosts>.Sort.Descending(post => post.RegDate);
+            var sorter = Builders<BlogPosts>.Sort.Descending(post => post.info.regDate);
 
             var allRows = DataBase
                 .GetCollection<BlogPosts>("post")
                 .Find(FilterDefinition<BlogPosts>.Empty)
                 .Sort(sorter);
             var rows = await allRows
-                .Skip(pageSize * pageSize)
+                .Skip(pageIndex * pageSize)
                 .Limit(pageSize)
                 .ToListAsync();
+
+            foreach (var row in rows)
+                row.info.publishDate = BlogPostBLL.GetRelativeTimeText(row.info.regDate);
 
             var totalRowCount = await allRows.CountDocumentsAsync();
 
@@ -55,8 +58,8 @@ namespace API.Controllers
             {
                 PageSize = pageSize,
                 PageIndex = pageIndex,
-                ShowingFirstRowIndex = pageSize * pageSize + 1,
-                ShowingLastRowIndex = rows.Count + (pageSize * pageSize) + 1,
+                ShowingFirstRowIndex = pageIndex * pageSize + 1,
+                ShowingLastRowIndex = rows.Count + (pageIndex * pageSize),
                 TotalPageCount = (long)Math.Floor(totalRowCount / (decimal)pageSize),
                 TotalRecord = totalRowCount,
                 ViewingRecord = rows.Count,
@@ -91,15 +94,6 @@ namespace API.Controllers
         {
             var person = new SyndicationPerson("hayrihabip@hotmail.com", "Hayri HABİP", "https://hayrihabip.com/");
 
-            var feed = new SyndicationFeed(
-                "Hayri HABİP, çizikli küçük kutucuklar peşinde...", 
-                "Yazılımın her aşamasına meraklıyım. Herhangi bir soruna yazılımlar ile çözüm bulmaktan keyif alıyorum.", 
-                new Uri("https://api.hayrihabip.com/feed"), "35HH", DateTime.Now
-            );
-            feed.Authors.Add(person);
-            feed.ImageUrl = new Uri(baseClientPath + "assets/images/profile.png");
-            feed.Copyright = new TextSyndicationContent($"{DateTime.Now.Year} Hayri HABİP");
-
             var posts = DataBase
                 .GetCollection<BlogPosts>("post")
                 .FindSync<BlogPosts>(FilterDefinition<BlogPosts>.Empty)
@@ -109,15 +103,23 @@ namespace API.Controllers
 
             foreach (var post in posts)
             {
-                var postUrl = new Uri($"{baseClientPath}blog-post/{post.Id}");
-                var item = new SyndicationItem(post.Title, post.Intro, postUrl, post.Id.ToString(), post.Info.PublishDate);
+                var postUrl = new Uri($"{baseClientPath}blog-post/{post.id}");
+                var item = new SyndicationItem(post.title, post.intro, postUrl, post.id, post.info.regDate);
                 
                 item.Authors.Add(person);
-                item.ElementExtensions.Add(new XElement("image", $"{baseClientPath}/assets/images/blog/{post.ImageName}"));
+                item.ElementExtensions.Add(new XElement("image", $"{baseClientPath}/assets/images/blog/{post.imageName}"));
 
                 items.Add(item);
             }
 
+            var feed = new SyndicationFeed(
+                "Hayri HABİP, çizikli küçük kutucuklar peşinde...",
+                "Yazılımın her aşamasına meraklıyım. Herhangi bir soruna yazılımlar ile çözüm bulmaktan keyif alıyorum.",
+                new Uri("https://api.hayrihabip.com/feed"), "35HH", posts.OrderBy(post => post.info.regDate).Last().info.regDate
+            );
+            feed.Authors.Add(person);
+            feed.ImageUrl = new Uri(baseClientPath + "assets/images/profile.png");
+            feed.Copyright = new TextSyndicationContent($"{DateTime.Now.Year} Hayri HABİP");
             feed.Items = items;
       
             using (var stream = new MemoryStream())
