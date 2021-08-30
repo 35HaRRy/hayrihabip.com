@@ -28,7 +28,9 @@ function createUploadEvents(delay: number) {
 
   return new Observable<HttpEvent<any>>(observer => {
     // notify the event stream that the request was sent.
-    observer.next({type: HttpEventType.Sent});
+    observer.next({
+      type: HttpEventType.Sent
+    });
 
     uploadLoop(0);
 
@@ -43,8 +45,10 @@ function createUploadEvents(delay: number) {
             const doneResponse = new HttpResponse({
               status: 201, // OK but no body;
             });
+
             observer.next(doneResponse);
             observer.complete();
+
             return;
           }
 
@@ -54,6 +58,7 @@ function createUploadEvents(delay: number) {
             total
           };
           observer.next(progressEvent);
+
           uploadLoop(loaded);
         }, delay);
     }

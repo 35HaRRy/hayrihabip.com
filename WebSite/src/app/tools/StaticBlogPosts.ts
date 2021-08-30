@@ -372,7 +372,8 @@ export const StaticBlogPosts: BlogPost[] = [
       commentCount: 0
     },
     navigator: {
-      previousPostId: "611826c7514f7965643bae8a"
+      previousPostId: "611826c7514f7965643bae8a",
+      nextPostId: "612b9f13e8f48d5bef808f6f"
     },
     imageName: "createBlogSeries-1.jpg",
     body: [
@@ -429,15 +430,16 @@ export const StaticBlogPosts: BlogPost[] = [
               className: "mb-2"
             },
             children: [
-              // {
-              //   component: "a",
-              //   attributes: {
-              //     routerLink: "/blog-post/#blogPostId2#"
-              //   },
-              //   children: [
+              {
+                component: "a",
+                attributes: {
+                  href: "/blog-post/612b9f13e8f48d5bef808f6f",
+                  target: "_blank"
+                },
+                children: [
                   "WebSite - 2: API Bağlantısı & AWS Lambda ile Yayına Alma"
-              //   ]
-              // }
+                ]
+              }
             ]
           },
           {
@@ -449,7 +451,7 @@ export const StaticBlogPosts: BlogPost[] = [
               // {
               //   component: "a",
               //   attributes: {
-              //     routerLink: "/blog-post/#blogPostId3#"
+              //     href: "/blog-post/#blogPostId3#"
               //   },
               //   children: [
                   "Azure AKS ile .Net Core API"
@@ -466,7 +468,7 @@ export const StaticBlogPosts: BlogPost[] = [
               // {
               //   component: "a",
               //   attributes: {
-              //     routerLink: "/blog-post/#blogPostId4#"
+              //     href: "/blog-post/#blogPostId4#"
               //   },
               //   children: [
                   "Veri tabanı & MongoDB Atlas"
@@ -642,7 +644,7 @@ export const StaticBlogPosts: BlogPost[] = [
           // {
           //   component: "a",
           //   attributes: {
-          //     routerLink: "/blog-post/#blogPostId2#"
+          //     href: "/blog-post/#blogPostId2#"
           //   },
           //   children: [
               "\"WebSite - 2: API Bağlantısı & AWS Lambda ile Yayına Alma\"",
@@ -1262,6 +1264,975 @@ export class AppModule {
         ],
         sortIndex: 37
       }
+    ]
+  },
+  {
+    id: "612b9f13e8f48d5bef808f6f",
+    title: "WebSite - 2: API Bağlantısı & AWS Lambda ile Yayına Alma",
+    intro: "Blog sitemi yapım serüvenimi anlattığım yazı serimin 2. yazısı \"WebSite - 2: API Bağlantısı & AWS Lambda ile Yayına Alma\"",
+    info: {
+      regDate: new Date(2021, 7, 29, 19, 30),
+      readMin: "3 min",
+      commentCount: 0
+    },
+    navigator: {
+      previousPostId: "611ecd38ebbdf60b35d225da"
+    },
+    imageName: "createBlogSeries-2.jpg",
+    body: [
+      {
+        blogPostId: "612b9f13e8f48d5bef808f6f",
+        component: "figure",
+        attributes: {
+          className: "blog-banner"
+        },
+        children: [
+          {
+            component: "img",
+            attributes: {
+              className: "img-fluid",
+              src: "assets/images/blog/createBlogSeries-2.jpg",
+              alt: "image"
+            },
+          }
+        ],
+        sortIndex: 1
+      },
+      {
+        blogPostId: "612b9f13e8f48d5bef808f6f",
+        component: "p",
+        children: [
+          "Blog sitemi yapım serüvenimi anlattığım yazı serimin 2. yazısında API bağlantısını nasıl yaptığımı ve AWS Lambda' ya nasıl gönderdiğimi anlatacağım."
+        ],
+        sortIndex: 2
+      },
+      {
+        blogPostId: "612b9f13e8f48d5bef808f6f",
+        component: "ol",
+        attributes: {
+          className: "mb-5"
+        },
+        children: [
+          {
+            component: "li",
+            attributes: {
+              className: "mb-2"
+            },
+            children: [
+              {
+                component: "a",
+                attributes: {
+                  href: "/blog-post/611ecd38ebbdf60b35d225da",
+                  target: "_blank"
+                },
+                children: [
+                  "WebSite - 1: Şablon & Angular Kurulum & Component' lerin oluşturulması"
+                ]
+              }
+            ]
+          },
+          {
+            component: "li",
+            attributes: {
+              className: "mb-2"
+            },
+            children: [
+              {
+                component: "strong",
+                children: [
+                  "WebSite - 2: API Bağlantısı & AWS Lambda ile Yayına Alma"
+                ]
+              }
+            ]
+          },
+          {
+            component: "li",
+            attributes: {
+              className: "mb-2"
+            },
+            children: [
+              // {
+              //   component: "a",
+              //   attributes: {
+              //     href: "/blog-post/#blogPostId3#"
+              //   },
+              //   children: [
+                  "Azure AKS ile .Net Core API"
+              //   ]
+              // }
+            ]
+          },
+          {
+            component: "li",
+            attributes: {
+              className: "mb-2"
+            },
+            children: [
+              // {
+              //   component: "a",
+              //   attributes: {
+              //     href: "/blog-post/#blogPostId4#"
+              //   },
+              //   children: [
+                  "Veri tabanı & MongoDB Atlas"
+              //   ]
+              // }
+            ]
+          }
+        ],
+        sortIndex: 3
+      },
+      {
+        component: "p",
+        children: [
+          ""
+        ],
+        sortIndex: 4
+      },
+      {
+        blogPostId: "612b9f13e8f48d5bef808f6f",
+        component: "h3",
+        attributes: {
+          className: "mt-4"
+        },
+        children: [
+          "API Bağlantısı"
+        ],
+        sortIndex: 5
+      },
+      {
+        blogPostId: "612b9f13e8f48d5bef808f6f",
+        component: "p",
+        children: [
+          "Bu bağlantıyı gerçekleştirmek için StacBiltz ",
+          {
+            component: "a",
+            attributes: {
+              href: "https://stackblitz.com/angular/nlmmqmmqvvd?file=src%2Fapp%2Fapp.module.ts"
+            },
+            children: [
+              "HttpClient Example"
+            ]
+          },
+          " örnek uygulamasını inceledim. Bu örnekteki api sonucu taklit eden ",
+          {
+            component: "strong",
+            children: [
+              "HttpClientInMemoryWebApi"
+            ]
+          },
+          " modülünü kullanmadım. Aynı işlevi görecek kendi yazdığım ",
+          {
+            component: "strong",
+            children: [
+              "HttpClientInMemoryWebApi"
+            ]
+          },
+          " HttpInterceptor' ünü kullandım. Ondan daha sonra bahsedeceğim. Şimdi bu örnek uygulamadan hangi kısımları ne için aldığımı anlatayım."
+        ],
+        sortIndex: 6,
+      },
+      {
+        blogPostId: "612b9f13e8f48d5bef808f6f",
+        component: "h5",
+        attributes: {
+          className: "mt-4"
+        },
+        children: [
+          "app.modules.ts"
+        ],
+        sortIndex: 7
+      },
+      {
+        blogPostId: "612b9f13e8f48d5bef808f6f",
+        component: "p",
+        children: [
+          "İlk önce ",
+          {
+            component: "strong",
+            children: [
+              "app.module.ts"
+            ]
+          },
+          "' den bu imports kısmını"
+        ],
+        sortIndex: 8,
+      },
+      {
+        blogPostId: "612b9f13e8f48d5bef808f6f",
+        component: "code",
+        attributes: {
+          languages: [
+            "TypeScript"
+          ]
+        },
+        children: [
+          `HttpClientModule,
+HttpClientXsrfModule.withOptions({
+  cookieName: 'My-Xsrf-Cookie',
+  headerName: 'My-Xsrf-Header',
+}),`
+        ],
+        sortIndex: 9
+      },
+      {
+        blogPostId: "612b9f13e8f48d5bef808f6f",
+        component: "p",
+        children: [
+          "Buradaki ",
+          {
+            component: "strong",
+            children: [
+              "HttpClientModule"
+            ]
+          },
+          " asıl ihtiyacım olan modül. Üzerinden get-post vs gibi metotlar ile api isteklerini yapacağım HttpClient değişkenini sağlıyor. ",
+          {
+            component: "strong",
+            children: [
+              "HttpClientXsrfModule"
+            ]
+          },
+          " de ",
+          {
+            component: "a",
+            attributes: {
+              href: "https://owasp.org/www-community/attacks/csrf",
+              target: "_blank"
+            },
+            children: [
+              "Cross Site Request Forgery (CSRF)"
+            ]
+          },
+          " den korunmak için kullanılıyor.",
+          "Yine app.modules.ts' den providers' dan şu kısmı aldım",
+        ],
+        sortIndex: 10,
+      },
+      {
+        blogPostId: "612b9f13e8f48d5bef808f6f",
+        component: "code",
+        attributes: {
+          languages: [
+            "TypeScript"
+          ]
+        },
+        children: [
+          `AuthService,
+HttpErrorHandler,
+MessageService,
+{ provide: RequestCache, useClass: RequestCacheWithMap },
+httpInterceptorProviders`
+        ],
+        sortIndex: 11
+      },
+      {
+        blogPostId: "612b9f13e8f48d5bef808f6f",
+        component: "p",
+        children: [
+          "Bu provider' lar http isteği yapılırken istenen koşul sağlanırsa çalışıyorlar. AuthService her istekte kullanacak token' ı döndürmek için HttpErrorHandler hata durumlarını ve dönüşlerini yönetmek için kullanılıyor.",
+          "import cümlelerinden de görebileceği gibi bu provider' ların olduğu dosyalar şöyle"
+        ]
+      },
+      {
+        blogPostId: "612b9f13e8f48d5bef808f6f",
+        component: "ul",
+        attributes: {
+          className: "mb-5"
+        },
+        children: [
+          {
+            component: "li",
+            attributes: {
+              className: "mb-2"
+            },
+            children: [
+              "auth-service.ts"
+            ]
+          },
+          {
+            component: "li",
+            attributes: {
+              className: "mb-2"
+            },
+            children: [
+              "http-error-handler.service.ts"
+            ]
+          },
+          {
+            component: "li",
+            attributes: {
+              className: "mb-2"
+            },
+            children: [
+              "message.service.ts"
+            ]
+          },
+          {
+            component: "li",
+            attributes: {
+              className: "mb-2"
+            },
+            children: [
+              "request-cache.service.ts"
+            ]
+          },
+          {
+            component: "li",
+            attributes: {
+              className: "mb-2"
+            },
+            children: [
+              "http-interceptors klasörü"
+            ]
+          }
+        ],
+        sortIndex: 12
+      },
+      {
+        blogPostId: "612b9f13e8f48d5bef808f6f",
+        component: "h5",
+        attributes: {
+          className: "mt-4"
+        },
+        children: [
+          "httpInterceptorProviders"
+        ],
+        sortIndex: 13
+      },
+      {
+        blogPostId: "612b9f13e8f48d5bef808f6f",
+        component: "p",
+        children: [
+          "httpInterceptorProviders' ı atlamayayım. Buradaki provide' lar bir http isteğini ve sonucunu düzenlemek için kullanılıyor. Bazılarının ne yaptıklarını kısaca anlatayım"
+        ],
+        sortIndex: 14
+      },
+      {
+        blogPostId: "612b9f13e8f48d5bef808f6f",
+        component: "ul",
+        attributes: {
+          className: "mb-5"
+        },
+        children: [
+          {
+            component: "li",
+            attributes: {
+              className: "mb-2"
+            },
+            children: [
+              {
+                component: "strong",
+                children: [
+                  "custom-json-interceptor: "
+                ]
+              },
+              "İsteğin sonucu json türündeyse bu değeri ",
+              {
+                component: "strong",
+                children: [
+                  "CustomJsonParser"
+                ]
+              },
+              " ile kontrollü bir şekilde json objesine dönüştürmek için kullanılıyor."
+            ]
+          },
+          {
+            component: "li",
+            attributes: {
+              className: "mb-2"
+            },
+            children: [
+              {
+                component: "strong",
+                children: [
+                  "ensure-https-interceptor: "
+                ]
+              },
+              "İsteğin daha güvenli yani https li halde gönderildiğinden emin olmak için kullanılıyor."
+            ]
+          },
+          {
+            component: "li",
+            attributes: {
+              className: "mb-2"
+            },
+            children: [
+              {
+                component: "strong",
+                children: [
+                  "retry-interceptor: "
+                ]
+              },
+              "İstekte hata olduğunda isteğin tekrarlanmasını sağlıyor."
+            ]
+          },
+          {
+            component: "li",
+            attributes: {
+              className: "mb-2"
+            },
+            children: [
+              {
+                component: "strong",
+                children: [
+                  "trim-name-interceptor: "
+                ]
+              },
+              "İsteğin body' sindeki white-space' leri kaldırmak için kullanılıyor."
+            ]
+          },
+          {
+            component: "li",
+            attributes: {
+              className: "mb-2"
+            },
+            children: [
+              {
+                component: "strong",
+                children: [
+                  "upload-interceptor: "
+                ]
+              },
+              "İstek \"/upload/file\" adresine yapılmışsa cevabı geçikmeli olarak döndürmek için kullanılıyor. Api isteğinde bulunmak için örnek projeden aldığım kısımlar bu kadardı."
+            ]
+          }
+        ],
+        sortIndex: 15
+      },
+      {
+        blogPostId: "612b9f13e8f48d5bef808f6f",
+        component: "p",
+        children: [
+          "Tabi dosyaların içindeki comment' ler de incelenebilir. Burada bir isteği nasıl yaptığımı örnek ile göstereyim. ",
+          {
+            component: "strong",
+            children: [
+              "src/app/pages/blog-list/blog-list.service.ts"
+            ]
+          },
+          " dosyasında da görebileceğiniz gibi"
+        ],
+        sortIndex: 16
+      },
+      {
+        blogPostId: "612b9f13e8f48d5bef808f6f",
+        component: "code",
+        attributes: {
+          languages: [
+            "TypeScript"
+          ]
+        },
+        children: [
+          `getPage = (currentPage: Page): Observable<Pager<BlogPost>> => {
+  const params = new HttpParams()
+    .set('pageIndex', currentPage.PageIndex)
+    .set('pageSize', currentPage.PageSize);
+  const options = {
+    params
+  };
+
+  return this.http
+    .get<Pager<BlogPost>>(this.listUrl, options)
+    .pipe(
+      catchError(this.handleError('getBlogPosts', getEmptyPager<BlogPost>()))
+    );
+}`
+        ],
+        sortIndex: 17
+      },
+      {
+        blogPostId: "612b9f13e8f48d5bef808f6f",
+        component: "p",
+        children: [
+          "http (HttpClient) nesnesinin istenen http verb metodunu çağırarak kolayca api isteğinde bulunabliyorum. Burada ",
+          {
+            component: "a",
+            attributes: {
+              href: "https://rxjs.dev/",
+              target: "_blank"
+            },
+            children: [
+              "rxjs reactive programming"
+            ]
+          },
+          " kullanımını incelemenizi tavsiye ederim. Javascript' in asenkron kullanımını \"Observables\" lar ile keyifli bir hale getiriyor.",
+          "Yine bu kodda dikkatinizi çekmiştir",
+          {
+            component: "strong",
+            children: [
+              "Pager<BlogPost>"
+            ]
+          },
+          " gibi bir tanımlama var. Bu tanımla sayfalama listeleri dönüşlerini belirtmek için kullandığım bir interface. Ayrıca bu tarz api istekleri dışında kalan birçok isteğin sonucunu karşılamak için kullandığım ",
+          {
+            component: "strong",
+            children: [
+              "APIResult"
+            ]
+          },
+          " şeklinde de bir interface tanımlamam var. Bunun içerisinde sadece ",
+          {
+            component: "strong",
+            children: [
+              "\"Message\", \"MessageType\" ve \"Result<T>\" (işlem sonucu)"
+            ]
+          },
+          " özellikleri bulunuyor."
+        ],
+        sortIndex: 18
+      },
+      {
+        blogPostId: "612b9f13e8f48d5bef808f6f",
+        component: "h5",
+        attributes: {
+          className: "mt-4"
+        },
+        children: [
+          "Statik API (Mock a Backend)"
+        ],
+        sortIndex: 19
+      },
+      {
+        blogPostId: "612b9f13e8f48d5bef808f6f",
+        component: "p",
+        children: [
+          "API tarafını tamamlamadan önce Angular ile yaptıklarımı statik bir api ile görebilmek için HttpClient kullanımını bozmadan api sonucunu taklit edecek bir yapıya ihtiyaç duydum. HttpClientModule' ünü aldığım örnek yeterli olmadığı için başka bir arayışa gittim ve ufak bir araştırmadan sonra bu ihtiyacı karşılayabileceğim ",
+          {
+            component: "a",
+            attributes: {
+              href: "https://jasonwatmore.com/post/2020/07/18/angular-10-fake-backend-example-for-backendless-development",
+              target: "_blank"
+            },
+            children: [
+              "şöyle bir yazıyı"
+            ]
+          },
+          " inceledim. Bu yazıdan aldığım kod ile de ",
+          {
+            component: "strong",
+            children: [
+              "custom-response-interceptor' ı"
+            ]
+          },
+          " HttpInterceptors' ını yazdım. Bu provider ile \"/api/blogposts/\" ve \"api/blogposts/[id]\" adreslerine gelen isteklere statik json array' inden ilgili kısmı alarak cevap verebilir oldum."
+        ],
+        sortIndex: 20
+      },
+      {
+        blogPostId: "612b9f13e8f48d5bef808f6f",
+        component: "h5",
+        attributes: {
+          className: "mt-4"
+        },
+        children: [
+          "CORS & Proxy, pathRewrite"
+        ],
+        sortIndex: 21
+      },
+      {
+        blogPostId: "612b9f13e8f48d5bef808f6f",
+        component: "p",
+        children: [
+          "Statik api kullanılmazsa ve herhangi bir yönlendirme olmadan backend için hazırlanan api' ye bağlanılmaya çalışılırsa muhtemelen ",
+          {
+            component: "strong",
+            children: [
+              "Cross Origin Resource Sharing CORS"
+            ]
+          },
+          " hatası alınır. Bu hatanın sebebi bulunan alan adından farklı bir alan adına erişmeye çalışıldığında olabilecek bir güvenlik probleminin önüne geçmek. Angular ise bu duruma kendi içerisinde uygulamanın alan adı altından ",
+          {
+            component: "strong",
+            children: [
+              "proxy"
+            ]
+          },
+          " ayarları ile api' ye erişerek bir çözüm bulmuş. Tanımlamasını da şu şekilde yaptım."
+        ],
+        sortIndex: 22
+      },
+      {
+        blogPostId: "612b9f13e8f48d5bef808f6f",
+        component: "ol",
+        attributes: {
+          className: "mb-5"
+        },
+        children: [
+          {
+            component: "li",
+            attributes: {
+              className: "mb-2"
+            },
+            children: [
+              {
+                component: "strong",
+                children: [
+                  "src/app/setup/proxy.dev.conf.json"
+                ]
+              },
+              " dosyasında ",
+              {
+                component: "code",
+                attributes: {
+                  languages: [
+                    "JSON"
+                  ]
+                },
+                children: [
+                  `{
+  "/api": {
+    "target": "http://localhost/hayrihabip.com/api/",
+    "secure": false,
+    "logLevel": "debug"
+  }
+}`
+                ],
+                sortIndex: 8
+              },
+              " \"target\" değeri api' nizin adresi olabilir. Buarada incelemek isterseniz \"pathReWrite\" için ",
+              {
+                component: "a",
+                attributes: {
+                  href: "https://angular.io/guide/build#rewrite-the-url-path",
+                  target: "_blank"
+                },
+                children: [
+                  "şöyle bir doküman"
+                ]
+              },
+              " bulunuyor."
+            ]
+          },
+          {
+            component: "li",
+            attributes: {
+              className: "mb-2"
+            },
+            children: [
+              "Daha sonra bu ayarların olduğu json dosyasını ",
+              {
+                component: "strong",
+                children: [
+                  "angular.json"
+                ]
+              },
+              " dosyasında \"projects/hayrihabip.com/architect\" içerisinde şöyle referans gösterdim."
+            ]
+          },
+          {
+            component: "code",
+            attributes: {
+              languages: [
+                "TypeScript"
+              ]
+            },
+            children: [
+              `"serve": {
+  "builder": "@angular-devkit/build-angular:dev-server",
+  "configurations": {
+    "production": {
+      "browserTarget": "hayrihabip.com:build:production",
+      "proxyConfig": "src/app/setup/proxy.prod.conf.json"
+    },
+    "development": {
+      "browserTarget": "hayrihabip.com:build:development",
+      "proxyConfig": "src/app/setup/proxy.dev.conf.json"
+    }
+  },
+  "defaultConfiguration": "development"
+},`
+            ]
+          },
+        ],
+        sortIndex: 23
+      },
+      {
+        blogPostId: "612b9f13e8f48d5bef808f6f",
+        component: "h3",
+        attributes: {
+          className: "mt-4"
+        },
+        children: [
+          "AWS Lambda ile Yayına Alma"
+        ],
+        sortIndex: 24
+      },
+      {
+        blogPostId: "612b9f13e8f48d5bef808f6f",
+        component: "p",
+        children: [
+          "Bu yazının bir diğer önemli başlığı olan AWS Lambda' yı kullanabilmek için uygulamaya server-side rendering SSR özelliği kazandırmak gerekiyor. Ayrıca bu sayede uygulama SEO için de daha uygun bir hale geliyor. Bunu nasıl yaptığımı ",
+          {
+            component: "a",
+            attributes: {
+              href: "/blog-post/611ecd38ebbdf60b35d225da",
+              target: "_blank"
+            },
+            children: [
+              "bir önceki yazımda"
+            ]
+          },
+          " bahsetmiştim. Bu yazıdaki adımlar takip edildiğinde AWS Lambda tanımlamaları büyük ölçüde halledilmiş olunuyor. Ben nelere dikkat ettim ve neleri değiştirdim. Onları anlatmak istiyorum."
+        ],
+        sortIndex: 25
+      },
+      {
+        blogPostId: "612b9f13e8f48d5bef808f6f",
+        component: "h5",
+        attributes: {
+          className: "mt-4"
+        },
+        children: [
+          "Serverless FrameWork"
+        ],
+        sortIndex: 26
+      },
+      {
+        blogPostId: "612b9f13e8f48d5bef808f6f",
+        component: "p",
+        children: [
+          "Öncelikle uygulamanın AWS' e gönderilmesini sağlayan ",
+          {
+            component: "strong",
+            attributes: {
+              href: "https://www.serverless.com/",
+              target: "_blank"
+            },
+            children: [
+              "serverless framework"
+            ]
+          },
+          " de bir kullanıcı açtım. Daha sonra ",
+          {
+            component: "strong",
+            children: [
+              "https://app.serverless.com/[kullanıcı-adı]/settings/providers?providerId=new&provider=aws"
+            ]
+          },
+          " adresindeki adımları takip ederek serverless ve AWS hesaplarımı birbirine bağladım. Buradaki kodları konsoldan \"serverless\" komutlarını çağırırken kullanmak üzere not aldım.",
+          "Bir başka ilgilendiğim konu ise bu lambda fonksiyonunu kendi alan adıma bağlamaktı bunun için de ",
+          {
+            component: "a",
+            attributes: {
+              href: "https://www.cloudsavvyit.com/3194/how-to-set-up-a-custom-domain-for-awss-api-gateway/",
+              target: "_blank"
+            },
+            children: [
+              "How to Set Up a Custom Domain for AWS’s API Gateway"
+            ]
+          },
+          " dokümanındaki adımları takip ettim. Burada şöyle bir not düşeyim \"subfolder\" gibi farklı link yapıları kullananlar için Angular' daki ",
+          {
+            component: "strong",
+            children: [
+              "base-tag ve deploy-url"
+            ]
+          },
+          " özelliklerini anlamakta fayda var. Bunun için şöyle bir ",
+          {
+            component: "a",
+            attributes: {
+              href: "https://angular.io/guide/deployment#the-base-tag",
+              target: "_blank"
+            },
+            children: [
+              "resmi doküman"
+            ]
+          },
+          " var."
+        ],
+        sortIndex: 27
+      },
+      {
+        blogPostId: "612b9f13e8f48d5bef808f6f",
+        component: "h5",
+        attributes: {
+          className: "mt-4"
+        },
+        children: [
+          "lambda.js & serverless.yml"
+        ],
+        sortIndex: 28
+      },
+      {
+        blogPostId: "612b9f13e8f48d5bef808f6f",
+        component: "p",
+        children: [
+          "Uygulamayı AWS Lambda üzerinde denerken resimlerin gözükmediğini fark ettim ve bu durumu araştırırken ",
+          {
+            component: "strong",
+            children: [
+              "awsServerlessExpress"
+            ]
+          },
+          " ile uygulamayı sunarken bazı dosyaların ve özellikle resimler için ",
+          {
+            component: "strong",
+            children: [
+              "mime-type"
+            ]
+          },
+          " tanımlaması yapılması gerektiğini öğrendim. Buyüzden ",
+          {
+            component: "strong",
+            children: [
+              "lambda.js"
+            ]
+          },
+          " dosyasında şu güncellemeyi yaptım."
+        ],
+        sortIndex: 29
+      },
+      {
+        blogPostId: "612b9f13e8f48d5bef808f6f",
+        component: "code",
+        attributes: {
+          languages: [
+            "TypeScript"
+          ]
+        },
+        children: [
+          `const binaryMimeTypes = [
+  'application/javascript',
+  'application/json',
+  'application/octet-stream',
+  'application/x-font-ttf',
+  'application/xml',
+  'image/gif',
+  'image/jpeg',
+  'image/png',
+  'image/svg+xml',
+  'image/x-icon',
+  'text/comma-separated-values',
+  'text/css',
+  'text/html',
+  'text/javascript',
+  'text/plain',
+  'text/text',
+  'text/xml'
+];
+
+const serverProxy = awsServerlessExpress.createServer(app.server, null, binaryMimeTypes);`
+        ],
+        sortIndex: 30
+      },
+      {
+        blogPostId: "612b9f13e8f48d5bef808f6f",
+        component: "p",
+        children: [
+          "Ve serverless' ın binary sunumunu yapabilmesi için ",
+          {
+            component: "strong",
+            children: [
+              "serverless.yml"
+            ]
+          },
+          " dosyasına da şu eklemeyi yaptım."
+        ],
+        sortIndex: 31
+      },
+      {
+        blogPostId: "612b9f13e8f48d5bef808f6f",
+        component: "code",
+        attributes: {
+          languages: [
+            "yml"
+          ]
+        },
+        children: [
+          `plugins:
+  - serverless-apigw-binary
+custom:
+  apigwBinary:
+    types:
+      - '*/*'`
+        ],
+        sortIndex: 32
+      },
+      {
+        blogPostId: "612b9f13e8f48d5bef808f6f",
+        component: "p",
+        children: [
+          "Yazıyı bitirmeden önce debug ve deploy komutlarından da bahsedeyim. Bu komutların tanımlamaları ",
+          {
+            component: "strong",
+            children: [
+              "package.json"
+            ]
+          },
+          " dosyasında \"script\" özelliğinde yapılmış durumda. Bunlardan ",
+          {
+            component: "strong",
+            children: [
+              "dev:sls"
+            ]
+          },
+          " i komut satırında"
+        ],
+        sortIndex: 33
+      },
+      {
+        blogPostId: "612b9f13e8f48d5bef808f6f",
+        component: "code",
+        attributes: {
+          languages: [
+            "cmd"
+          ]
+        },
+        children: [
+          `npm rum dev:sls`
+        ],
+        sortIndex: 34
+      },
+      {
+        blogPostId: "612b9f13e8f48d5bef808f6f",
+        component: "p",
+        children: [
+          "komutu ile çalıştırabilirsiniz. Bu komut ",
+          {
+            component: "a",
+            attributes: {
+              href: "http://localhost:3000",
+              target: "_blank"
+            },
+            children: [
+              "http://localhost:3000"
+            ]
+          },
+          " adresinde yeni bir uygulama başlatacaktır. Yayına alma içinse"
+        ],
+        sortIndex: 35
+      },
+      {
+        blogPostId: "612b9f13e8f48d5bef808f6f",
+        component: "code",
+        attributes: {
+          languages: [
+            "cmd"
+          ]
+        },
+        children: [
+          `npm rum deploy`
+        ],
+        sortIndex: 35
+      },
+      {
+        blogPostId: "612b9f13e8f48d5bef808f6f",
+        component: "p",
+        children: [
+          "komutunu çalıştırmanız yeterli.",
+          "Buraya kadar uygulamanın client tarafını tamamlamış oldum. Bu yazım burada bitiyor ancak yazı serim devam ediyor. ",
+          {
+            component: "strong",
+            children: [
+              "Azure AKS ile .Net Core API"
+            ]
+          },
+          " yazımda görüşmek üzere."
+        ],
+        sortIndex: 36
+      },
     ]
   }
 ];

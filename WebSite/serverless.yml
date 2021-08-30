@@ -11,10 +11,16 @@ provider:
   timeout: 10
 package:
   patterns:
-    - "!/**"
-    - "node_modules/aws-serverless-express/**"
-    - "dist/**"
-    - "lambda.js"
+    - '!**'
+    - 'node_modules/@vendia/**'
+    - 'node_modules/aws-serverless-express/**'
+    - 'node_modules/binary-case/**'
+    - 'node_modules/media-typer/**'
+    - 'node_modules/mime-db/**'
+    - 'node_modules/mime-types/**'
+    - 'node_modules/type-is/**'
+    - 'dist/**'
+    - 'lambda.js'
 custom:
   apigwBinary:
     types:

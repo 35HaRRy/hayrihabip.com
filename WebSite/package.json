@@ -14,7 +14,7 @@
     "build:ssr": "ng build && ng run hayrihabip.com:server",
     "build:sls": "ng build && ng run hayrihabip.com:serverless",
     "prerender": "ng run hayrihabip.com:prerender",
-    "deploy": "serverless deploy",
+    "deploy": "npm run build:sls && serverless deploy",
     "terminate": "serverless remove"
   },
   "private": true,
