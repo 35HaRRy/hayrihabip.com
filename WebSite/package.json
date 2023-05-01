@@ -8,14 +8,9 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "dev:ssr": "ng run hayrihabip.com:serve-ssr",
-    "dev:sls": "ng build -c development && ng run hayrihabip.com:serverless -c development && npm run serve:sls",
     "serve:ssr": "node dist/hayrihabip.com/server/main.js",
-    "serve:sls": "serverless offline start --noPrependStageInUrl",
     "build:ssr": "ng build && ng run hayrihabip.com:server",
-    "build:sls": "ng build && ng run hayrihabip.com:serverless",
-    "prerender": "ng run hayrihabip.com:prerender",
-    "deploy": "npm run build:sls && serverless deploy",
-    "terminate": "serverless remove"
+    "prerender": "ng run hayrihabip.com:prerender"
   },
   "private": true,
   "dependencies": {

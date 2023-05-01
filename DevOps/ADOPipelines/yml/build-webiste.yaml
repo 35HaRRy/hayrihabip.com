@@ -1,0 +1,27 @@
+
+trigger:
+- main
+
+pool:
+  vmImage: ubuntu-latest
+
+steps:
+- task: NodeTool@0
+  inputs:
+    versionSpec: '10.x'
+  displayName: 'Install Node.js'
+- task: Bash@3
+  inputs:
+    filePath: '/DevOps/ADOPipelines/Bash/BuildWebSite.ps1'
+    workingDirectory: '$(System.DefaultWorkingDirectory)/WebSite'
+- task: PowerShell@2
+  inputs:
+- task: AzureRmWebAppDeployment@4
+  inputs:
+    ConnectionType: 'AzureRM'
+    azureSubscription: 'Azure Free Trail'
+    appType: 'webAppLinux'
+    WebAppName: 'hayrihabip'
+    packageForLinux: '$(System.DefaultWorkingDirectory)/WebSite/dist.zip'
+    RuntimeStack: 'NODE|18-lts'
+    StartupCommand: 'node dist/hayrihabip.com/server/main.js'
