@@ -4,17 +4,19 @@ trigger:
 
 jobs:
 - job: BuilDeployWebSite
-  displayName: 'Buil & Deploy WebSite'
+  displayName: 'Build & Deploy WebSite'
   pool: Matrix
   workspace:
     clean: all
   steps:
   - checkout: self
   - task: PowerShell@2
+    displayName: 'Build WebSite'
     inputs:
-      filePath: '/DevOps/ADOPipelines/PS/BuildWebSite.ps1'
-      workingDirectory: '$(System.DefaultWorkingDirectory)/WebSite'
+      filePath: '\DevOps\ADOPipelines\PS\BuildWebSite.ps1'
+      workingDirectory: '$(System.DefaultWorkingDirectory)\WebSite'
   - task: AzureRmWebAppDeployment@4
+    displayName: 'Deploy WebSite'
     inputs:
       ConnectionType: 'AzureRM'
       azureSubscription: 'Azure Free Trail'
