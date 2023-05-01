@@ -10,9 +10,9 @@ jobs:
     clean: all
   steps:
   - checkout: self
-  - task: Bash@3
+  - task: PowerShell@2
     inputs:
-      filePath: '/DevOps/ADOPipelines/Bash/BuildWebSite.ps1'
+      filePath: '/DevOps/ADOPipelines/PS/BuildWebSite.ps1'
       workingDirectory: '$(System.DefaultWorkingDirectory)/WebSite'
   - task: AzureRmWebAppDeployment@4
     inputs:
