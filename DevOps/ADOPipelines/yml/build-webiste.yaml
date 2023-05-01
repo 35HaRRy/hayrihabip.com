@@ -13,7 +13,7 @@ jobs:
   - task: PowerShell@2
     displayName: 'Build WebSite'
     inputs:
-      filePath: '\DevOps\ADOPipelines\PS\BuildWebSite.ps1'
+      filePath: '$(System.DefaultWorkingDirectory)\DevOps\ADOPipelines\PS\BuildWebSite.ps1'
       workingDirectory: '$(System.DefaultWorkingDirectory)\WebSite'
   - task: AzureRmWebAppDeployment@4
     displayName: 'Deploy WebSite'
