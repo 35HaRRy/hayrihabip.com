@@ -14,8 +14,6 @@ steps:
   inputs:
     filePath: '/DevOps/ADOPipelines/Bash/BuildWebSite.ps1'
     workingDirectory: '$(System.DefaultWorkingDirectory)/WebSite'
-- task: PowerShell@2
-  inputs:
 - task: AzureRmWebAppDeployment@4
   inputs:
     ConnectionType: 'AzureRM'
