@@ -2,24 +2,24 @@
 trigger:
 - main
 
-pool:
-  vmImage: Matrix
-
-steps:
-- task: NodeTool@0
-  inputs:
-    versionSpec: '10.x'
-  displayName: 'Install Node.js'
-- task: Bash@3
-  inputs:
-    filePath: '/DevOps/ADOPipelines/Bash/BuildWebSite.ps1'
-    workingDirectory: '$(System.DefaultWorkingDirectory)/WebSite'
-- task: AzureRmWebAppDeployment@4
-  inputs:
-    ConnectionType: 'AzureRM'
-    azureSubscription: 'Azure Free Trail'
-    appType: 'webAppLinux'
-    WebAppName: 'hayrihabip'
-    packageForLinux: '$(System.DefaultWorkingDirectory)/WebSite/dist.zip'
-    RuntimeStack: 'NODE|18-lts'
-    StartupCommand: 'node dist/hayrihabip.com/server/main.js'
+jobs:
+- job: BuilDeployWebSite
+  displayName: 'Buil & Deploy WebSite'
+  pool: Matrix
+  workspace:
+    clean: all
+  steps:
+  - checkout: self
+  - task: Bash@3
+    inputs:
+      filePath: '/DevOps/ADOPipelines/Bash/BuildWebSite.ps1'
+      workingDirectory: '$(System.DefaultWorkingDirectory)/WebSite'
+  - task: AzureRmWebAppDeployment@4
+    inputs:
+      ConnectionType: 'AzureRM'
+      azureSubscription: 'Azure Free Trail'
+      appType: 'webAppLinux'
+      WebAppName: 'hayrihabip'
+      packageForLinux: '$(System.DefaultWorkingDirectory)/WebSite/dist.zip'
+      RuntimeStack: 'NODE|18-lts'
+      StartupCommand: 'node dist/hayrihabip.com/server/main.js'
