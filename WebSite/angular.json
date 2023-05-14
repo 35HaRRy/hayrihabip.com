@@ -29,7 +29,7 @@
             "assets": [
               "src/favicon.ico",
               "src/assets",
-              "src/robots933456s.txt"
+              "src/robots933456.txt"
             ],
             "styles": [
               "src/styles.scss"
@@ -102,8 +102,7 @@
             "inlineStyleLanguage": "scss",
             "assets": [
               "src/favicon.ico",
-              "src/assets",
-              "src/robots933456s.txt"
+              "src/assets"
             ],
             "styles": [
               "src/styles.scss"
@@ -116,8 +115,7 @@
           "options": {
             "outputPath": "dist/hayrihabip.com/server",
             "main": "server.ts",
-            "tsConfig": "tsconfig.server.json",
-            "inlineStyleLanguage": "scss"
+            "tsConfig": "tsconfig.server.json"
           },
           "configurations": {
             "production": {

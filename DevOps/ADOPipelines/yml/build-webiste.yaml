@@ -24,4 +24,4 @@ jobs:
       WebAppName: 'hayrihabip'
       packageForLinux: '$(System.DefaultWorkingDirectory)/WebSite/dist.zip'
       RuntimeStack: 'NODE|18-lts'
-      StartupCommand: 'node hayrihabip.com/server/main.js'
+      StartupCommand: 'node dist/hayrihabip.com/server/main.js'
