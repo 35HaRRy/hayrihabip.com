@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using BLL;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 
 using Microsoft.Extensions.Configuration;
@@ -42,6 +43,8 @@ namespace API
         /// </summary>
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddSingleton<IBlogPostBLL, BlogPostBLL>();
+
             services
                 .AddControllers()
                 .AddJsonOptions(option => option.JsonSerializerOptions.PropertyNamingPolicy = null);
@@ -53,9 +56,11 @@ namespace API
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory logFactory)
         {
             if (env.IsProduction())
+            {
                 app
                 .UseHttpsRedirection()
                 .UseHsts();
+            }
                 
             app
                 .UseStaticFiles() // For the wwwroot folder

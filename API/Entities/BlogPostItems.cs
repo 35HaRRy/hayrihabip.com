@@ -14,7 +14,7 @@ namespace Entities
         public string blogPostId { get; set; }
         public string component { get; set; }
         public Dictionary<string, string> attributes { get; set; }
-        public List<object> children { get; set; }
+        public dynamic children { get; set; }
         public int sortIndex { get; set; }
     }
 }

@@ -1,34 +1,62 @@
-using System;
-
+﻿using Entities;
 using Microsoft.Extensions.Configuration;
-
 using MongoDB.Bson;
 using MongoDB.Driver;
-
-using Entities;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.ServiceModel.Syndication;
+using System.Text;
+using System.Threading.Tasks;
+using System.Xml;
+using System.Xml.Linq;
 
 namespace BLL
 {
-    public class BlogPostBLL
+    public interface IBlogPostBLL
     {
-        public IMongoDatabase ConnectToDB(IConfiguration configuration)
-        {   
-            var settings = MongoClientSettings.FromConnectionString(configuration.GetConnectionString("ConnectionString"));
-            
-            var client = new MongoClient(settings);
-            return client.GetDatabase("DB");
+        IMongoDatabase ConnectToDB();
+
+        IFindFluent<BlogPosts, BlogPosts> GetList();
+        Task<BlogPosts> GetById(string id);
+        byte[] GetFeed();
+    }
+
+    public class BlogPostBLL : IBlogPostBLL
+    {
+        private string baseClientPath = "https://blog.hayrihabip.com/";
+
+        readonly IConfiguration configuration;
+        readonly IMongoDatabase Database;
+
+        public BlogPostBLL(IConfiguration _configuration)
+        {
+            configuration = _configuration;
+            Database = ConnectToDB();
         }
 
-        public BlogPosts GetById(IConfiguration configuration, string id)
+        public IMongoDatabase ConnectToDB() => new MongoClient(configuration.GetConnectionString("ConnectionString"))
+            .GetDatabase("DB");
+
+        public IFindFluent<BlogPosts, BlogPosts> GetList()
         {
-            var DB = ConnectToDB(configuration);
+            var sorter = Builders<BlogPosts>.Sort.Descending(post => post.info.regDate);
 
-            var postFilter = id == "latest" ? FilterDefinition<BlogPosts>.Empty : Builders<BlogPosts>.Filter.Eq("id", new ObjectId(id));
-            var sorter = Builders<BlogPosts>.Sort.Descending(post => post.info.regDate); 
-
-            var post = DB
+            return Database
                 .GetCollection<BlogPosts>("post")
-                .Find<BlogPosts>(postFilter)
+                .Find(FilterDefinition<BlogPosts>.Empty)
+                .Sort(sorter);
+        }
+
+        public async Task<BlogPosts> GetById(string id)
+        {
+            var postFilter = id == "latest" ? FilterDefinition<BlogPosts>.Empty : Builders<BlogPosts>.Filter.Eq("id", new ObjectId(id));
+            var sorter = Builders<BlogPosts>.Sort.Descending(post => post.info.regDate);
+
+            var post = Database
+                .GetCollection<BlogPosts>("post")
+                .Find(postFilter)
                 .Sort(sorter)
                 .FirstOrDefault();
 
@@ -36,17 +64,76 @@ namespace BLL
             {
                 post.info.publishDate = GetRelativeTimeText(post.info.regDate);
 
-                var bodyFilter = Builders<BlogPostItems>.Filter.Eq("blogPostId", new ObjectId(post.id));
-                var bodySorter = Builders<BlogPostItems>.Sort.Ascending(post => post.sortIndex);
+                var bodyFilter = Builders<BsonDocument>.Filter.Eq("blogPostId", new ObjectId(post.id));
+                var bodySorter = Builders<BsonDocument>.Sort.Ascending(sortItem => sortItem["sortIndex"].AsInt32);
 
-                post.body = DB
-                    .GetCollection<BlogPostItems>("bodyItems")
-                    .Find<BlogPostItems>(bodyFilter)
+                var bodyItems = await Database
+                    .GetCollection<BsonDocument>("bodyItems")
+                    .Find(bodyFilter)
                     .Sort(bodySorter)
-                    .ToList();
+                    .ToListAsync();
+
+                post.body = bodyItems.Select(item => item.ToDictionary());
             }
 
             return post;
+        }
+
+        public byte[] GetFeed()
+        {
+            var person = new SyndicationPerson("hayrihabip@hotmail.com", "Hayri HABİP", "https://hayrihabip.com/");
+
+            var posts = Database
+                .GetCollection<BlogPosts>("post")
+                .FindSync<BlogPosts>(FilterDefinition<BlogPosts>.Empty)
+                .ToList();
+
+            var items = new List<SyndicationItem>();
+
+            foreach (var post in posts)
+            {
+                var postUrl = new Uri($"{baseClientPath}blog-post/{post.id}");
+                var item = new SyndicationItem(post.title, post.intro, postUrl, post.id, post.info.regDate);
+
+                item.Authors.Add(person);
+                item.ElementExtensions.Add(new XElement("image", $"{baseClientPath}/assets/images/blog/{post.imageName}"));
+
+                items.Add(item);
+            }
+
+            var feed = new SyndicationFeed(
+                "Hayri HABİP, çizikli küçük kutucuklar peşinde...",
+                "Yazılımın her aşamasına meraklıyım. Herhangi bir soruna yazılımlar ile çözüm bulmaktan keyif alıyorum.",
+                new Uri("https://api.hayrihabip.com/feed"), "35HH", posts.OrderBy(post => post.info.regDate).Last().info.regDate
+            );
+            feed.Authors.Add(person);
+            feed.ImageUrl = new Uri(baseClientPath + "assets/images/profile.png");
+            feed.Copyright = new TextSyndicationContent($"{DateTime.Now.Year} Hayri HABİP");
+            feed.Items = items;
+
+            Byte[] fileByteArray;
+            using (var stream = new MemoryStream())
+            {
+                var settings = new XmlWriterSettings
+                {
+                    Encoding = Encoding.UTF8,
+                    NewLineHandling = NewLineHandling.Entitize,
+                    NewLineOnAttributes = true,
+                    Indent = true
+                };
+
+                using (var xmlWriter = XmlWriter.Create(stream, settings))
+                {
+                    var rssFormatter = new Rss20FeedFormatter(feed, false);
+                    rssFormatter.WriteTo(xmlWriter);
+
+                    xmlWriter.Flush();
+                }
+
+                fileByteArray = stream.ToArray();
+            }
+
+            return fileByteArray;
         }
 
         public static string GetRelativeTimeText(DateTime date)

@@ -1,16 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.ServiceModel.Syndication;
-using System.Text;
 using System.Threading.Tasks;
-using System.Xml;
-using System.Xml.Linq;
 
 using Microsoft.AspNetCore.Mvc;
-
-using Microsoft.Extensions.Configuration;
 
 using MongoDB.Driver;
 
@@ -22,28 +13,18 @@ namespace API.Controllers
     [Route("api/[controller]")]
     [ApiController]
     public class BlogPostsController : ControllerBase
-    {
-        IConfiguration Configuration;
-        IMongoDatabase DataBase;
-                
-        string baseClientPath = "https://blog.hayrihabip.com/";
+    {           
+        readonly IBlogPostBLL blogPostBLL;
 
-        public BlogPostsController(IConfiguration configuration)
+        public BlogPostsController(IBlogPostBLL _blogPostBLL)
         {
-            Configuration = configuration;
-
-            DataBase = new BlogPostBLL().ConnectToDB(Configuration);
+            blogPostBLL = _blogPostBLL;
         }
 
         [HttpGet]
         public async Task<ActionResult<Pager<BlogPosts>>> GetPageAsync([FromQuery] int pageSize, [FromQuery] int pageIndex)
         {
-            var sorter = Builders<BlogPosts>.Sort.Descending(post => post.info.regDate);
-
-            var allRows = DataBase
-                .GetCollection<BlogPosts>("post")
-                .Find(FilterDefinition<BlogPosts>.Empty)
-                .Sort(sorter);
+            var allRows = blogPostBLL.GetList();
             var rows = await allRows
                 .Skip(pageIndex * pageSize)
                 .Limit(pageSize)
@@ -67,11 +48,10 @@ namespace API.Controllers
             });
         }
 
-        // GET api/Blogs/5
         [HttpGet("{id}")]
-        public ActionResult<APIResult<BlogPosts>> GetById(string id)
+        public async Task<ActionResult<APIResult<BlogPosts>>> GetById(string id)
         {
-            var post = new BlogPostBLL().GetById(Configuration, id);
+            var post = await blogPostBLL.GetById(id);
 
             if (post != null)
             {
@@ -82,66 +62,16 @@ namespace API.Controllers
                 });
             }
             else
+            {
                 return NotFound(new APIResult<BlogPosts>()
                 {
                     MessageType = 0
                 });
+            }
         }
 
         [ResponseCache(Duration = 1200)]
         [HttpGet("feed")]
-        public IActionResult Feed()
-        {
-            var person = new SyndicationPerson("hayrihabip@hotmail.com", "Hayri HABİP", "https://hayrihabip.com/");
-
-            var posts = DataBase
-                .GetCollection<BlogPosts>("post")
-                .FindSync<BlogPosts>(FilterDefinition<BlogPosts>.Empty)
-                .ToList();                
-
-            var items = new List<SyndicationItem>();
-
-            foreach (var post in posts)
-            {
-                var postUrl = new Uri($"{baseClientPath}blog-post/{post.id}");
-                var item = new SyndicationItem(post.title, post.intro, postUrl, post.id, post.info.regDate);
-                
-                item.Authors.Add(person);
-                item.ElementExtensions.Add(new XElement("image", $"{baseClientPath}/assets/images/blog/{post.imageName}"));
-
-                items.Add(item);
-            }
-
-            var feed = new SyndicationFeed(
-                "Hayri HABİP, çizikli küçük kutucuklar peşinde...",
-                "Yazılımın her aşamasına meraklıyım. Herhangi bir soruna yazılımlar ile çözüm bulmaktan keyif alıyorum.",
-                new Uri("https://api.hayrihabip.com/feed"), "35HH", posts.OrderBy(post => post.info.regDate).Last().info.regDate
-            );
-            feed.Authors.Add(person);
-            feed.ImageUrl = new Uri(baseClientPath + "assets/images/profile.png");
-            feed.Copyright = new TextSyndicationContent($"{DateTime.Now.Year} Hayri HABİP");
-            feed.Items = items;
-      
-            using (var stream = new MemoryStream())
-            {
-                var settings = new XmlWriterSettings
-                {
-                    Encoding = Encoding.UTF8,
-                    NewLineHandling = NewLineHandling.Entitize,
-                    NewLineOnAttributes = true,
-                    Indent = true
-                };
-                
-                using (var xmlWriter = XmlWriter.Create(stream, settings))
-                {
-                    var rssFormatter = new Rss20FeedFormatter(feed, false);
-                    rssFormatter.WriteTo(xmlWriter);
-
-                    xmlWriter.Flush();
-                }
-
-                return File(stream.ToArray(), "text/xml; charset=utf-8");
-            }
-        }
+        public IActionResult Feed() => File(blogPostBLL.GetFeed(), "text/xml; charset=utf-8");
     }
 }

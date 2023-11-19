@@ -15,7 +15,7 @@ namespace Entities
         public string intro { get; set; }
         public string imageName { get; set; }
         public Infos info { get; set; }
-        public List<BlogPostItems> body { get; set; }
+        public IEnumerable<Dictionary<string, object>> body { get; set; }
         public Navigators navigator { get; set; }
     }
 
