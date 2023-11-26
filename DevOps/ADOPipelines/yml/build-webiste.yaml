@@ -3,28 +3,6 @@ trigger:
 - main
 
 jobs:
-- job: BuilDeployWebSite
-  displayName: 'Build & Deploy WebSite'
-  pool: Matrix
-  workspace:
-    clean: all
-  steps:
-  - checkout: self
-  - task: PowerShell@2
-    displayName: 'Build WebSite'
-    inputs:
-      filePath: '$(System.DefaultWorkingDirectory)\DevOps\ADOPipelines\PS\BuildWebSite.ps1'
-      workingDirectory: '$(System.DefaultWorkingDirectory)\WebSite'
-  - task: AzureRmWebAppDeployment@4
-    displayName: 'Deploy WebSite'
-    inputs:
-      ConnectionType: 'AzureRM'
-      azureSubscription: 'Personal Subs(f2532fd6-43d1-4fd4-9877-c651c1c76b5e)'
-      appType: 'webAppLinux'
-      WebAppName: 'hayrihabip'
-      packageForLinux: '$(System.DefaultWorkingDirectory)/WebSite/dist.zip'
-      RuntimeStack: 'NODE|18-lts'
-      StartupCommand: 'node dist/hayrihabip.com/server/main.js'
 - job: BuilDeployAPI
   displayName: 'Build & Deploy API'
   pool: Matrix
