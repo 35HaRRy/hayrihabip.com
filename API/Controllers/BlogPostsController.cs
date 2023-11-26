@@ -10,7 +10,7 @@ using BLL;
 
 namespace API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     public class BlogPostsController : ControllerBase
     {           

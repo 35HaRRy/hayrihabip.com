@@ -6,6 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using System.IO;
 
 namespace API
 {
@@ -43,9 +44,12 @@ namespace API
         /// </summary>
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddSingleton<IBlogPostBLL, BlogPostBLL>();
+            var applicationName = Configuration.GetValue<string>("YoutubeAPI:Application");
+            var apiKey = Configuration.GetValue<string>("YoutubeAPI:Key");
 
             services
+                .AddSingleton<IBlogPostBLL, BlogPostBLL>()
+                .AddSingleton<IYoutubeBLL, YoutubeBLL>(sp => new YoutubeBLL(Configuration, applicationName, apiKey))
                 .AddControllers()
                 .AddJsonOptions(option => option.JsonSerializerOptions.PropertyNamingPolicy = null);
         }
