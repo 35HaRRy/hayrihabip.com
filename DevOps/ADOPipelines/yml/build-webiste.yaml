@@ -5,7 +5,8 @@ trigger:
 jobs:
 - job: BuilDeployWebSite
   displayName: 'Build & Deploy WebSite'
-  pool: windows-latest
+  pool:
+    vmImage: windows-latest
   workspace:
     clean: all
   steps:
@@ -27,7 +28,8 @@ jobs:
       StartupCommand: 'node dist/hayrihabip.com/server/main.js'
 - job: BuilDeployAPI
   displayName: 'Build & Deploy API'
-  pool: windows-latest
+  pool:
+    vmImage: windows-latest
   workspace:
     clean: all
   steps:
