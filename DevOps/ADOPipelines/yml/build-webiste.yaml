@@ -5,8 +5,7 @@ trigger:
 jobs:
 - job: BuilDeployWebSite
   displayName: 'Build & Deploy WebSite'
-  pool:
-    vmImage: windows-latest
+  pool: Matrix
   workspace:
     clean: all
   steps:
@@ -28,8 +27,7 @@ jobs:
       StartupCommand: 'node dist/hayrihabip.com/server/main.js'
 - job: BuilDeployAPI
   displayName: 'Build & Deploy API'
-  pool:
-    vmImage: windows-latest
+  pool: Matrix
   workspace:
     clean: all
   steps:
@@ -50,3 +48,4 @@ jobs:
       DockerNamespace: 'hayrihabip'
       DockerRepository: 'api'
       DockerImageTag: '$(Build.BuildId)'
+      
