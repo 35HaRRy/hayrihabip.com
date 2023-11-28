@@ -33,10 +33,11 @@ export function app(): express.Express {
 
   const proxyOptions = {
     target: environment.apiUrl,
+    changeOrigin: true,
     pathRewrite: {
       '^/api': ''
     }
-  }
+  };
   const apiProxy = createProxyMiddleware('/api', proxyOptions);
   server.use('/api', apiProxy);
 
