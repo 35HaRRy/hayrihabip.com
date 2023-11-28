@@ -35,16 +35,17 @@ jobs:
   - task: Docker@2
     inputs:
       containerRegistry: 'hayrihabip docker hub'
-      repository: 'hayrihabip/api'
-      command: 'buildAndPush'
-      Dockerfile: 'API/Dockerfile'
-      tags: $(Build.BuildId)
+      repository: hayrihabip/api
+      command: buildAndPush
+      Dockerfile: API/Dockerfile
+      tags: 0.0.$(Build.BuildId)
   - task: AzureRmWebAppDeployment@4
     inputs:
-      ConnectionType: 'AzureRM'
+      ConnectionType: AzureRM
       azureSubscription: 'Personal Subs(f2532fd6-43d1-4fd4-9877-c651c1c76b5e)'
-      appType: 'webAppContainer'
-      WebAppName: 'hayihabip-api'
-      DockerNamespace: 'hayrihabip'
-      DockerRepository: 'api'
-      DockerImageTag: '$(Build.BuildId)'
+      appType: webAppContainer
+      WebAppName: hayihabip-api
+      DockerNamespace: hayrihabip
+      DockerRepository: api
+      DockerImageTag: 0.0.$(Build.BuildId)
+      
