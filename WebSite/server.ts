@@ -1,12 +1,21 @@
 import 'zone.js/dist/zone-node';
 
 import { ngExpressEngine } from '@nguniversal/express-engine';
+import { APP_BASE_HREF } from '@angular/common';
+
+import { createProxyMiddleware } from 'http-proxy-middleware';
 import * as express from 'express';
+
 import { join } from 'path';
 
-import { AppServerModule } from './src/main.server';
-import { APP_BASE_HREF } from '@angular/common';
 import { existsSync } from 'graceful-fs';
+
+import { AppServerModule } from './src/main.server';
+import { environment } from './src/environments/environment';
+
+process.on('uncaughtException', function (err) {
+  console.log("ERROR", err);
+});
 
 // The Express app is exported so that it can be used by serverless Functions.
 export function app(): express.Express {
@@ -22,14 +31,19 @@ export function app(): express.Express {
   server.set('view engine', 'html');
   server.set('views', distFolder);
 
-  // Example Express Rest API endpoints
-  // server.get('/api/**', (req, res) => { });
-  // Serve static files from /browser
+  const proxyOptions = {
+    target: environment.apiUrl,
+    pathRewrite: {
+      '^/api': ''
+    }
+  }
+  const apiProxy = createProxyMiddleware('/api', proxyOptions);
+  server.use('/api', apiProxy);
+
   server.get('*.*', express.static(distFolder, {
     maxAge: '1y'
   }));
 
-  // All regular routes use the Universal engine
   server.get('*', (req, res) => {
     res.render(
       indexHtml,
@@ -47,9 +61,8 @@ export function app(): express.Express {
 }
 
 function run(): void {
-  const port = 8080;
+  const port = process.env.PORT;
 
-  // Start up the Node server
   const server = app();
   server.listen(port, () => {
     console.log(`Node Express server listening on http://localhost:${port}`);

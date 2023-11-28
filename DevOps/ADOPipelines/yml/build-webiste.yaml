@@ -48,4 +48,3 @@ jobs:
       DockerNamespace: 'hayrihabip'
       DockerRepository: 'api'
       DockerImageTag: '$(Build.BuildId)'
-      

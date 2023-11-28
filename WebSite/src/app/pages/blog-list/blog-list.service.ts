@@ -12,7 +12,7 @@ import { APIResult, ErrorAPIResult } from '../../tools/request/APIResult';
 
 @Injectable()
 export class BlogListService {
-  listUrl = `api/BlogPosts`;
+  listUrl = '/api/BlogPosts';
 
   private handleError: HandleError;
 

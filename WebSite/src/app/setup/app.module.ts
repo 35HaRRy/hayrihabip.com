@@ -74,11 +74,12 @@ import { BlogPostItemComponent } from '../components/blog-post-item/blog-post-it
     AuthService,
     BlogListService,
     httpInterceptorProviders
-],
+  ],
   bootstrap: [
     AppComponent
   ]
 })
+
 export class AppModule {
   constructor(private library: FaIconLibrary) {
     library.addIcons(faHome, faUser, faBookmark, faLongArrowAltLeft, faLongArrowAltRight, faTwitter, faGithub, faLinkedin);
