@@ -10,7 +10,9 @@ namespace API.Controllers
     [ApiController]
     public class PodcastsController : ControllerBase
     {           
-        readonly IYoutubeBLL YoutubeBLL;
+        private readonly NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
+
+        private readonly IYoutubeBLL YoutubeBLL;
 
         public PodcastsController(IYoutubeBLL _YoutubeBLL)
         {
@@ -25,6 +27,8 @@ namespace API.Controllers
         public async Task<RedirectResult> GetAudioAsync([FromQuery] string videoId)
         {
             var redirectUrl = await YoutubeBLL.GetAudioAsync(videoId);
+            logger.Debug("RedirectUrl: {0}", redirectUrl);
+            
             return Redirect(redirectUrl);
         }
     }

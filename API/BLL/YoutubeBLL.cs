@@ -18,6 +18,8 @@ namespace BLL
 {
     public sealed class YoutubeBLL : IYoutubeBLL
     {
+        // private readonly NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
+
         private const string _videoUrlFormat = "http://www.youtube.com/watch?v={0}";
         private const string _playlistUrlFormat = "http://www.youtube.com/playlist?list={0}";
         
@@ -96,21 +98,23 @@ namespace BLL
 
         public async Task<string> GetAudioAsync(string videoId)
         {
-            string redirectUri;
-            try
-            {
+            // string redirectUri;
+            // try
+            // {
                 var streamManifest = await _youtubeClient.Videos.Streams.GetManifestAsync(videoId);
                 var audios = streamManifest
                     .GetAudioOnlyStreams()
                     .ToList();
-                redirectUri = audios.Count > 0
+                var redirectUri = audios.Count > 0
                     ? audios.MaxBy(audio => audio.Bitrate).Url
                     : null;
-            }
-            catch
-            {
-                redirectUri = null;
-            }
+            // }
+            // catch (Exception ex)
+            // {
+            //     logger.Debug("Getting audio url failed: {0}", ex.Message);
+
+            //     redirectUri = null;
+            // }
 
             return redirectUri;
         }

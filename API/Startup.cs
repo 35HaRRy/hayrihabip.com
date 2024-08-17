@@ -6,7 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using System.IO;
+using NLog.Config;
 
 namespace API
 {
@@ -46,6 +46,11 @@ namespace API
         {
             var applicationName = Configuration.GetValue<string>("YoutubeAPI:Application");
             var apiKey = Configuration.GetValue<string>("YoutubeAPI:Key");
+
+            ConfigurationItemFactory.Default.Targets.RegisterDefinition(
+                "ApplicationInsightsTarget", 
+                typeof(Microsoft.ApplicationInsights.NLogTarget.ApplicationInsightsTarget)
+            );
 
             services
                 .AddSingleton<IBlogPostBLL, BlogPostBLL>()
