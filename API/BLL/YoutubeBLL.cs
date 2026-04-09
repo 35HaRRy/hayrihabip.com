@@ -10,6 +10,7 @@ using System.Xml.Linq;
 using Google.Apis.Services;
 using Google.Apis.YouTube.v3.Data;
 using Microsoft.Extensions.Configuration;
+using NLog;
 using YoutubeExplode;
 using Video = Google.Apis.YouTube.v3.Data.Video;
 using YouTubeService = Google.Apis.YouTube.v3.YouTubeService;
@@ -18,11 +19,11 @@ namespace BLL
 {
     public sealed class YoutubeBLL : IYoutubeBLL
     {
-        // private readonly NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
+        private readonly Logger logger = LogManager.GetCurrentClassLogger();
 
         private const string _videoUrlFormat = "http://www.youtube.com/watch?v={0}";
         private const string _playlistUrlFormat = "http://www.youtube.com/playlist?list={0}";
-        
+
         private readonly IConfiguration _configuration;
         private readonly YoutubeClient _youtubeClient;
         private readonly YouTubeService _youtubeService;
@@ -34,15 +35,13 @@ namespace BLL
             _configuration = configuration;
 
             _youtubeClient = new YoutubeClient();
-            _youtubeService =
-                new YouTubeService
-                (
-                    new BaseClientService.Initializer
-                    {
-                        ApiKey = apiKey,
-                        ApplicationName = applicationName
-                    }
-                );
+            _youtubeService = new YouTubeService(
+                new BaseClientService.Initializer
+                {
+                    ApiKey = apiKey,
+                    ApplicationName = applicationName,
+                }
+            );
 
             _baseUrl = _configuration.GetValue<string>("BaseUrl") + "/podcasts";
         }
@@ -68,7 +67,10 @@ namespace BLL
             )
             {
                 ImageUrl = new Uri(playlist.Snippet.Thumbnails.Medium.Url),
-                Items = await GenerateItemsAsync(playlist.Snippet.PublishedAtDateTimeOffset.GetValueOrDefault(), arguments)
+                Items = await GenerateItemsAsync(
+                    playlist.Snippet.PublishedAtDateTimeOffset.GetValueOrDefault(),
+                    arguments
+                ),
             };
 
             Byte[] fileByteArray;
@@ -79,7 +81,7 @@ namespace BLL
                     Encoding = Encoding.UTF8,
                     NewLineHandling = NewLineHandling.Entitize,
                     NewLineOnAttributes = true,
-                    Indent = true
+                    Indent = true,
                 };
 
                 using (var xmlWriter = XmlWriter.Create(stream, settings))
@@ -98,31 +100,30 @@ namespace BLL
 
         public async Task<string> GetAudioAsync(string videoId)
         {
-            // string redirectUri;
-            // try
-            // {
+            string redirectUri;
+            try
+            {
                 var streamManifest = await _youtubeClient.Videos.Streams.GetManifestAsync(videoId);
-                var audios = streamManifest
-                    .GetAudioOnlyStreams()
-                    .ToList();
-                var redirectUri = audios.Count > 0
-                    ? audios.MaxBy(audio => audio.Bitrate).Url
-                    : null;
-            // }
-            // catch (Exception ex)
-            // {
-            //     logger.Debug("Getting audio url failed: {0}", ex.Message);
-
-            //     redirectUri = null;
-            // }
+                var audios = streamManifest.GetAudioOnlyStreams().ToList();
+                redirectUri = audios.Count > 0 ? audios.MaxBy(audio => audio.Bitrate).Url : null;
+            }
+            catch (Exception ex)
+            {
+                logger.Debug("Getting audio url failed: {0}", ex.Message);
+                redirectUri = null;
+            }
 
             return redirectUri;
         }
 
-
-        private async Task<IEnumerable<SyndicationItem>> GenerateItemsAsync(DateTimeOffset startDate, Arguments arguments)
+        private async Task<IEnumerable<SyndicationItem>> GenerateItemsAsync(
+            DateTimeOffset startDate,
+            Arguments arguments
+        )
         {
-            IEnumerable<PlaylistItem> playlistItems = (await GetPlaylistItemsAsync(arguments)).ToList();
+            IEnumerable<PlaylistItem> playlistItems = (
+                await GetPlaylistItemsAsync(arguments)
+            ).ToList();
             var userVideos = playlistItems.Select(_ => GenerateItem(_));
             if (arguments.IsPopular)
             {
@@ -169,7 +170,10 @@ namespace BLL
                 new XElement(
                     "enclosure",
                     new XAttribute("type", "audio/mp4"),
-                    new XAttribute("url", $"{_baseUrl}/Audio.m4a?videoId={playlistItem.Snippet.ResourceId.VideoId}")
+                    new XAttribute(
+                        "url",
+                        $"{_baseUrl}/Audio.m4a?videoId={playlistItem.Snippet.ResourceId.VideoId}"
+                    )
                 ).CreateReader()
             );
 
@@ -179,13 +183,18 @@ namespace BLL
         private async Task<IEnumerable<SyndicationItem>> SortByPopularityAsync(
             IEnumerable<SyndicationItem> userVideos,
             IEnumerable<PlaylistItem> playlistItems,
-            DateTimeOffset startDate)
+            DateTimeOffset startDate
+        )
         {
-            var videos = await GetVideosAsync(playlistItems.Select(_ => _.Snippet.ResourceId.VideoId).Distinct());
+            var videos = await GetVideosAsync(
+                playlistItems.Select(_ => _.Snippet.ResourceId.VideoId).Distinct()
+            );
             var videoDictionary = videos.ToDictionary(_ => _.Id, _ => _);
-            userVideos = userVideos.
-                OrderByDescending(_ => videoDictionary[_.Id].Statistics.ViewCount.GetValueOrDefault()).
-                ToList();
+            userVideos = userVideos
+                .OrderByDescending(_ =>
+                    videoDictionary[_.Id].Statistics.ViewCount.GetValueOrDefault()
+                )
+                .ToList();
             var i = 0;
             foreach (var userVideo in userVideos)
             {
@@ -198,7 +207,11 @@ namespace BLL
         }
 
         private async Task<IEnumerable<Video>> GetVideosAsync(IEnumerable<string> videoIds) =>
-            (await Task.WhenAll(MoreLinq.MoreEnumerable.Batch(videoIds, 50).Select(GetVideoBatchAsync))).SelectMany(_ => _);
+            (
+                await Task.WhenAll(
+                    MoreLinq.MoreEnumerable.Batch(videoIds, 50).Select(GetVideoBatchAsync)
+                )
+            ).SelectMany(_ => _);
 
         private async Task<IEnumerable<Video>> GetVideoBatchAsync(IEnumerable<string> videoIds)
         {
