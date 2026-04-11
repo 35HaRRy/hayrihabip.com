@@ -1,19 +1,16 @@
 ﻿using System;
 using System.Threading.Tasks;
-
-using Microsoft.AspNetCore.Mvc;
-
-using MongoDB.Driver;
-
-using Entities;
 using BLL;
+using Entities;
+using Microsoft.AspNetCore.Mvc;
+using MongoDB.Driver;
 
 namespace API.Controllers
 {
     [Route("[controller]")]
     [ApiController]
     public class BlogPostsController : ControllerBase
-    {           
+    {
         readonly IBlogPostBLL blogPostBLL;
 
         public BlogPostsController(IBlogPostBLL _blogPostBLL)
@@ -22,30 +19,32 @@ namespace API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<Pager<BlogPosts>>> GetPageAsync([FromQuery] int pageSize, [FromQuery] int pageIndex)
+        public async Task<ActionResult<Pager<BlogPosts>>> GetPageAsync(
+            [FromQuery] int pageSize,
+            [FromQuery] int pageIndex
+        )
         {
             var allRows = blogPostBLL.GetList();
-            var rows = await allRows
-                .Skip(pageIndex * pageSize)
-                .Limit(pageSize)
-                .ToListAsync();
+            var rows = await allRows.Skip(pageIndex * pageSize).Limit(pageSize).ToListAsync();
 
             foreach (var row in rows)
                 row.info.publishDate = BlogPostBLL.GetRelativeTimeText(row.info.regDate);
 
             var totalRowCount = await allRows.CountDocumentsAsync();
 
-            return Ok(new Pager<BlogPosts>()
-            {
-                PageSize = pageSize,
-                PageIndex = pageIndex,
-                ShowingFirstRowIndex = pageIndex * pageSize + 1,
-                ShowingLastRowIndex = rows.Count + (pageIndex * pageSize),
-                TotalPageCount = (long)Math.Floor(totalRowCount / (decimal)pageSize),
-                TotalRecord = totalRowCount,
-                ViewingRecord = rows.Count,
-                Rows = rows
-            });
+            return Ok(
+                new Pager<BlogPosts>()
+                {
+                    PageSize = pageSize,
+                    PageIndex = pageIndex,
+                    ShowingFirstRowIndex = pageIndex * pageSize + 1,
+                    ShowingLastRowIndex = rows.Count + (pageIndex * pageSize),
+                    TotalPageCount = (long)Math.Floor(totalRowCount / (decimal)pageSize),
+                    TotalRecord = totalRowCount,
+                    ViewingRecord = rows.Count,
+                    Rows = rows,
+                }
+            );
         }
 
         [HttpGet("{id}")]
@@ -55,18 +54,11 @@ namespace API.Controllers
 
             if (post != null)
             {
-                return Ok(new APIResult<BlogPosts>()
-                {
-                    MessageType = 1,
-                    Result = post
-                });
+                return Ok(new APIResult<BlogPosts>() { MessageType = 1, Result = post });
             }
             else
             {
-                return NotFound(new APIResult<BlogPosts>()
-                {
-                    MessageType = 0
-                });
+                return NotFound(new APIResult<BlogPosts>() { MessageType = 0 });
             }
         }
 

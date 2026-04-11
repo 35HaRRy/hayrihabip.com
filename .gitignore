@@ -275,6 +275,9 @@ paket-files/
 __pycache__/
 *.pyc
 
+# Local virtual environment
+.venv/
+.env
 
 # compiled output
 /dist
@@ -323,3 +326,4 @@ Thumbs.db
 
 
 .terraform
+
