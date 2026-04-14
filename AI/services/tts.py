@@ -1,17 +1,28 @@
+from collections.abc import AsyncIterator
+
 from trafilatura import fetch_url, extract
 from trafilatura.settings import Extractor
 from trafilatura.downloads import add_to_compressed_dict
 from trafilatura.downloads import buffered_downloads, load_download_buffer
 
 import edge_tts
+import base64
 
 
-async def text_to_speech(text: str):
+async def text_to_speech(text: str) -> AsyncIterator[bytes]:
     communicate = edge_tts.Communicate(text, "tr-TR-AhmetNeural")
-    return communicate.stream()
-    # async for chunk in communicate.stream():
-    #     if chunk["type"] == "audio":
-    #         yield chunk["data"]
+    async for chunk in communicate.stream():
+        if chunk.get("type") != "audio":
+            continue
+        data = chunk.get("data")
+        if isinstance(data, bytes):
+            yield data
+            continue
+        if isinstance(data, str):
+            try:
+                yield base64.b64decode(data)
+            except Exception:
+                continue
 
 
 def export_url_to_markdown(url: str) -> str | None:

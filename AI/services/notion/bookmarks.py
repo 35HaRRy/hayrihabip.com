@@ -54,6 +54,14 @@ def query_bookmarks_page(
                         "equals": "Okumadım",
                     },
                 },
+            ],
+            "and": [
+                {
+                    "property": "Status",
+                    "select": {
+                        "does_not_equal": "Podcasted",
+                    },
+                },
             ]
         },
     }
