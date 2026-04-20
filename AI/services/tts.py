@@ -25,6 +25,20 @@ async def text_to_speech(text: str) -> AsyncIterator[bytes]:
                 continue
 
 
+def build_audio_stream(urls: list[str]) -> AsyncIterator[bytes]:
+    content_parts: list[str] = []
+
+    for url in urls:
+        new_content = export_url_to_markdown(url)
+        if new_content:
+            content_parts.append(new_content)
+
+    content = "\n\n".join(content_parts)
+    audio_stream = text_to_speech(content)
+
+    return audio_stream
+
+
 def export_url_to_markdown(url: str) -> str | None:
     document = fetch_url(url)
     markdown = extract(document, output_format='markdown')
