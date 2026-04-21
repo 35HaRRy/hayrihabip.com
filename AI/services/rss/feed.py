@@ -1,6 +1,7 @@
 from datetime import datetime, timezone
 from email.utils import format_datetime
 from xml.etree import ElementTree as ET
+import uuid
 
 from services.notion.bookmark import BookmarkRecord
 from services.rss import constants
@@ -39,9 +40,11 @@ def get_feed(podcasted_groups: list[list[BookmarkRecord]], channel_link: str) ->
         ]
         feed_items.append(
             {
+                "guid": str(uuid.uuid4()),
                 "title": title,
                 "link": item_link,
                 "description": "\n".join(description_lines),
+                "type": "audio/mp3",
             }
         )
     return FeedOptions(
@@ -74,5 +77,7 @@ def build_xml(
         ET.SubElement(item_element, "title").text = item["title"]
         ET.SubElement(item_element, "link").text = item["link"]
         ET.SubElement(item_element, "description").text = item["description"]
+        ET.SubElement(item_element, "type").text = item["type"]
+        ET.SubElement(item_element, "guid").text = item["guid"]
 
     return ET.tostring(rss, encoding="utf-8", xml_declaration=True).decode("utf-8")
