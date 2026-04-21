@@ -2,7 +2,7 @@ from dotenv import load_dotenv
 from fastapi import FastAPI, Query, Request, Response
 from fastapi.responses import StreamingResponse
 
-from AI.tools.helpers import validate_responses
+from tools.helpers import validate_responses
 from services.rss import feed
 from services.notion import bookmark
 from services import tts
