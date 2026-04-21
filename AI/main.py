@@ -1,7 +1,8 @@
 from dotenv import load_dotenv
-from fastapi import FastAPI, HTTPException, Query, Request, Response
+from fastapi import FastAPI, Query, Request, Response
 from fastapi.responses import StreamingResponse
 
+from AI.tools.helpers import validate_responses
 from services.rss import feed
 from services.notion import bookmark
 from services import tts
@@ -12,23 +13,33 @@ app = FastAPI()
 
 @app.get("/bookmarks/audio")
 async def read_selected_bookmarks(ids: str = Query(...)):
-    page_ids = bookmark.parse_bookmark_ids(ids)
-    records = bookmark.read_bookmarks_by_page_ids(page_ids)
-
-    if not records:
-        raise HTTPException(status_code=404, detail="No bookmarks found for the given ids.")
-
-    urls = [record.url for record in records if record.url]
-    if not urls:
-        raise HTTPException(status_code=404, detail="No bookmark URLs found for the given ids.")
-
+    records = bookmark.read_bookmarks_by_ids(ids)
+    urls, headers = validate_responses.selected_bookmarks(records)
     audio_stream = tts.build_audio_stream(urls)
 
+    headers = {"Content-Disposition": 'inline; filename="bookmarks.mp3"'}
     return StreamingResponse(
         audio_stream,
         media_type="audio/mpeg",
-        headers={"Content-Disposition": 'inline; filename="bookmarks.mp3"'},
+        headers=headers,
     )
+
+
+@app.head("/bookmarks/audio")
+async def head_selected_bookmarks(ids: str = Query(...)):
+    records = bookmark.read_bookmarks_by_ids(ids)
+    _, headers = validate_responses.selected_bookmarks(records)
+
+    return Response(status_code=200, media_type="audio/mpeg", headers=headers)
+
+
+@app.get("/bookmarks/content")
+async def read_selected_bookmarks_content(ids: str = Query(...)):
+    records = bookmark.read_bookmarks_by_ids(ids)
+    urls, _ = validate_responses.selected_bookmarks(records)
+    content = tts.export_urls_to_markdown(urls)
+
+    return Response(status_code=200, content=content, media_type="text/markdown")
 
 
 @app.get("/bookmarks/rss")

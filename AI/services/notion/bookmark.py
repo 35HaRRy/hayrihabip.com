@@ -38,8 +38,9 @@ def read_bookmark_records(limit: int = 15) -> list[BookmarkRecord]:
     return records[:limit]
 
 
-def read_bookmarks_by_page_ids(page_ids: list[str]) -> list[BookmarkRecord]:
+def read_bookmarks_by_ids(ids: str) -> list[BookmarkRecord]:
     notion_token = auth.get_notion_credentials()
+    page_ids = parse_bookmark_ids(ids)
     response = query_bookmarks_pages_by_ids(
         notion_token=notion_token,
         ids=page_ids
@@ -158,8 +159,8 @@ def query_bookmarks_pages_by_ids(
                         "equals": int(id),
                     },
                 }
+                for id in ids
             ]
-            for id in ids
         },
     }
 

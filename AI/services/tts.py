@@ -46,7 +46,19 @@ def export_url_to_markdown(url: str) -> str | None:
     return markdown
 
 
-def export_urls_to_markdown(urls: list[str]) -> list[dict[str, str]]:
+def export_urls_to_markdown(urls: list[str]) -> str:
+    content_parts: list[str] = []
+
+    for url in urls:
+        new_content = export_url_to_markdown(url)
+        if new_content:
+            content_parts.append(new_content)
+
+    content = "\n\n".join(content_parts)
+    return content
+
+
+def export_urls_to_markdown_bulk(urls: list[str]) -> list[dict[str, str]]:
     content: list[dict[str, str]] = []
     threads = 4
     options = Extractor()
