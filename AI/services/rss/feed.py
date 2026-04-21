@@ -74,10 +74,12 @@ def build_xml(
 
     for item in items:
         item_element = ET.SubElement(channel, "item")
+        ET.SubElement(item_element, "guid").text = item["guid"]
         ET.SubElement(item_element, "title").text = item["title"]
         ET.SubElement(item_element, "link").text = item["link"]
         ET.SubElement(item_element, "description").text = item["description"]
-        ET.SubElement(item_element, "type").text = item["type"]
-        ET.SubElement(item_element, "guid").text = item["guid"]
+        enclosure = ET.SubElement(item_element, "enclosure")
+        enclosure.set("type", item["type"])
+        enclosure.set("url", item["link"])
 
     return ET.tostring(rss, encoding="utf-8", xml_declaration=True).decode("utf-8")
