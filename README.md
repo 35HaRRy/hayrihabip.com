@@ -1,19 +1,46 @@
 # hayrihabip.com
 
-## Summary
-A personal website monorepo with an Angular SSR frontend, a .NET 8 API, and Python-based AI/bookmark utilities.
+## Overview
+A personal monorepo for my website and related tooling.
+It contains three separate parts: the main Angular-based website, a .NET 8 API, and Python utilities for AI and bookmark workflows.
+
+## Repository Structure
+- `WebSite/`: Angular 12 application with SSR support
+- `API/`: ASP.NET Core backend for content and media-related endpoints
+- `AI/`: FastAPI-based Python utilities for bookmarks, RSS, and text-to-speech
 
 ## Dependencies
+### WebSite
 - Node.js and npm
-- Angular 12, Angular Universal, Express, and the packages listed in `WebSite/package.json`
-- .NET 8 SDK with packages such as `MongoDB.Driver`, `NLog`, `YoutubeExplode`, and `Google.Apis.YouTube.v3`
-- Python 3.12 with Poetry and the packages in `pyproject.toml` (`FastAPI`, `trafilatura`, `edge-tts`)
+- Angular 12, Angular Universal, Express
+- Additional packages such as Font Awesome, RxJS, ngx-disqus, ngx-highlightjs, and ngx-tweet
+
+### API
+- .NET 8 SDK
+- `MongoDB.Driver`
+- `NLog` and `NLog.Web.AspNetCore`
+- `YoutubeExplode`
+- `Google.Apis.YouTube.v3`
+- `Newtonsoft.Json`
+
+### AI
+- Python 3.12
+- Poetry
+- `fastapi[standard]`
+- `trafilatura`
+- `edge-tts`
 
 ## Setup
-1. Install frontend dependencies: `cd WebSite && npm install`.
-2. Restore the API: `dotnet restore API/API.csproj`.
-3. Install Python dependencies: `poetry install`.
-4. Run the component you need:
-   - `npm run dev:ssr` for the website
-   - `dotnet run --project API/API.csproj` for the API
-   - `python AI/main.py` for the Python tools
+1. Install the dependencies for the part you want to work on.
+2. Restore frontend packages with `cd WebSite && npm install`.
+3. Restore the API with `dotnet restore API/API.csproj`.
+4. Install Python dependencies with `cd AI && poetry install`.
+5. Configure environment-specific settings in the relevant `.env` or `appsettings` files.
+
+## Run
+- Website: `cd WebSite && npm run dev:ssr`
+- API: `dotnet run --project API/API.csproj`
+- AI services: `cd AI && uvicorn main:app --reload`
+
+## Notes
+This repository is organized as a small multi-service workspace, so each subproject can be developed independently.
