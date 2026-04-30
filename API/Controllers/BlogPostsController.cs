@@ -24,6 +24,12 @@ namespace API.Controllers
             [FromQuery] int pageIndex
         )
         {
+            // validate paging inputs to avoid passing non-positive limits to MongoDB
+            if (pageSize <= 0)
+                pageSize = 10;
+            if (pageIndex < 0)
+                pageIndex = 0;
+
             var allRows = blogPostBLL.GetList();
             var rows = await allRows.Skip(pageIndex * pageSize).Limit(pageSize).ToListAsync();
 
@@ -32,14 +38,24 @@ namespace API.Controllers
 
             var totalRowCount = await allRows.CountDocumentsAsync();
 
+            var showingFirst = pageIndex * pageSize + 1;
+            var showingLast = pageIndex * pageSize + rows.Count;
+            if (totalRowCount == 0)
+            {
+                showingFirst = 0;
+                showingLast = 0;
+            }
+
+            var totalPageCount = (long)Math.Ceiling(totalRowCount / (decimal)pageSize);
+
             return Ok(
                 new Pager<BlogPosts>()
                 {
                     PageSize = pageSize,
                     PageIndex = pageIndex,
-                    ShowingFirstRowIndex = pageIndex * pageSize + 1,
-                    ShowingLastRowIndex = rows.Count + (pageIndex * pageSize),
-                    TotalPageCount = (long)Math.Floor(totalRowCount / (decimal)pageSize),
+                    ShowingFirstRowIndex = showingFirst,
+                    ShowingLastRowIndex = showingLast,
+                    TotalPageCount = totalPageCount,
                     TotalRecord = totalRowCount,
                     ViewingRecord = rows.Count,
                     Rows = rows,

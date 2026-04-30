@@ -50,9 +50,11 @@
       </div>
       <fa-icon *ngSwitchCase="'icon'" [class]="$any(item).attributes?.className" [icon]="$any(item).attributes?.icon" class="fa-fw"></fa-icon>
       <pre *ngSwitchCase="'code'" [class]="$any(item).attributes?.className">
-        <code [highlight]="$any(item).children[0]" [languages]="$any(item).attributes?.languages" [lineNumbers]="true"></code>
+        <code>
+          {{ $any(item).children[0] }}
+        </code>
       </pre>
-      <ngx-tweet *ngSwitchCase="'tweet'" [tweetId]="$any(item).attributes?.tweetId"></ngx-tweet>
+      <app-tweet-embed *ngSwitchCase="'tweet'" [tweetId]="$any(item).attributes?.tweetId"></app-tweet-embed>
       <iframe *ngSwitchCase="'video'" width="560" height="315" [src]="$any(item).attributes?.src" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
       <table *ngSwitchCase="'table'" [class]="$any(item).attributes?.className">
         <thead>

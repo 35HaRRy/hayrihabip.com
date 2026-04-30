@@ -1,3 +1,4 @@
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { BlogPostItemComponent } from './blog-post-item.component';
@@ -9,6 +10,8 @@ describe('BlogPostItemComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ BlogPostItemComponent ]
+      ,
+      schemas: [NO_ERRORS_SCHEMA]
     })
     .compileComponents();
   });

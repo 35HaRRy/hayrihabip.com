@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 import { PostNavigator } from './blog-navigator';
 
@@ -6,13 +6,14 @@ import { Pager } from '../../tools/request/Pager';
 
 @Component({
   selector: 'app-blog-navigator',
+  standalone: false,
   templateUrl: './blog-navigator.component.html',
   styleUrls: [
     './blog-navigator.component.scss'
   ]
 })
 
-export class BlogNavigatorComponent implements OnInit {
+export class BlogNavigatorComponent {
   @Input()
   navigator?: PostNavigator;
 
@@ -22,9 +23,12 @@ export class BlogNavigatorComponent implements OnInit {
   @Input()
   isForList!: boolean;
 
-  constructor() {
-  }
-
-  ngOnInit(): void {
+  scrollTop(): void {
+    try {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } catch (e) {
+      // fallback for environments where window isn't available
+      (document.documentElement || document.body).scrollTop = 0;
+    }
   }
 }

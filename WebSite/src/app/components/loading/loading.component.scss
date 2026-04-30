@@ -1,0 +1,9 @@
+.loading-message {
+  font-size: 1rem;
+  color: var(--muted, #6c757d);
+}
+
+/* ensure spinner scales nicely in different layouts */
+svg {
+  display: block;
+}

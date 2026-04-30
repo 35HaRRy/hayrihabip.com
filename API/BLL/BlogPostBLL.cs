@@ -1,8 +1,4 @@
-﻿using Entities;
-using Microsoft.Extensions.Configuration;
-using MongoDB.Bson;
-using MongoDB.Driver;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -11,6 +7,10 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Linq;
+using Entities;
+using Microsoft.Extensions.Configuration;
+using MongoDB.Bson;
+using MongoDB.Driver;
 
 namespace BLL
 {
@@ -36,8 +36,10 @@ namespace BLL
             Database = ConnectToDB();
         }
 
-        public IMongoDatabase ConnectToDB() => new MongoClient(configuration.GetConnectionString("ConnectionString"))
-            .GetDatabase("DB");
+        public IMongoDatabase ConnectToDB() =>
+            new MongoClient(configuration.GetConnectionString("ConnectionString")).GetDatabase(
+                "DB"
+            );
 
         public IFindFluent<BlogPosts, BlogPosts> GetList()
         {
@@ -51,7 +53,10 @@ namespace BLL
 
         public async Task<BlogPosts> GetById(string id)
         {
-            var postFilter = id == "latest" ? FilterDefinition<BlogPosts>.Empty : Builders<BlogPosts>.Filter.Eq("id", new ObjectId(id));
+            var postFilter =
+                id == "latest"
+                    ? FilterDefinition<BlogPosts>.Empty
+                    : Builders<BlogPosts>.Filter.Eq("id", new ObjectId(id));
             var sorter = Builders<BlogPosts>.Sort.Descending(post => post.info.regDate);
 
             var post = Database
@@ -64,8 +69,13 @@ namespace BLL
             {
                 post.info.publishDate = GetRelativeTimeText(post.info.regDate);
 
-                var bodyFilter = Builders<BsonDocument>.Filter.Eq("blogPostId", new ObjectId(post.id));
-                var bodySorter = Builders<BsonDocument>.Sort.Ascending(sortItem => sortItem["sortIndex"].AsInt32);
+                var bodyFilter = Builders<BsonDocument>.Filter.Eq(
+                    "blogPostId",
+                    new ObjectId(post.id)
+                );
+                var bodySorter = Builders<BsonDocument>.Sort.Ascending(sortItem =>
+                    sortItem["sortIndex"].AsInt32
+                );
 
                 var bodyItems = await Database
                     .GetCollection<BsonDocument>("bodyItems")
@@ -81,7 +91,11 @@ namespace BLL
 
         public byte[] GetFeed()
         {
-            var person = new SyndicationPerson("hayrihabip@hotmail.com", "Hayri HABİP", "https://hayrihabip.com/");
+            var person = new SyndicationPerson(
+                "hayrihabip@hotmail.com",
+                "Hayri Habip",
+                "https://hayrihabip.com/"
+            );
 
             var posts = Database
                 .GetCollection<BlogPosts>("post")
@@ -93,22 +107,32 @@ namespace BLL
             foreach (var post in posts)
             {
                 var postUrl = new Uri($"{baseClientPath}blog-post/{post.id}");
-                var item = new SyndicationItem(post.title, post.intro, postUrl, post.id, post.info.regDate);
+                var item = new SyndicationItem(
+                    post.title,
+                    post.intro,
+                    postUrl,
+                    post.id,
+                    post.info.regDate
+                );
 
                 item.Authors.Add(person);
-                item.ElementExtensions.Add(new XElement("image", $"{baseClientPath}/assets/images/blog/{post.imageName}"));
+                item.ElementExtensions.Add(
+                    new XElement("image", $"{baseClientPath}/assets/images/blog/{post.imageName}")
+                );
 
                 items.Add(item);
             }
 
             var feed = new SyndicationFeed(
-                "Hayri HABİP, çizikli küçük kutucuklar peşinde...",
+                "Hayri Habip, çizikli küçük kutucuklar peşinde...",
                 "Yazılımın her aşamasına meraklıyım. Herhangi bir soruna yazılımlar ile çözüm bulmaktan keyif alıyorum.",
-                new Uri("https://api.hayrihabip.com/feed"), "35HH", posts.OrderBy(post => post.info.regDate).Last().info.regDate
+                new Uri("https://api.hayrihabip.com/feed"),
+                "35HH",
+                posts.OrderBy(post => post.info.regDate).Last().info.regDate
             );
             feed.Authors.Add(person);
             feed.ImageUrl = new Uri(baseClientPath + "assets/images/profile.png");
-            feed.Copyright = new TextSyndicationContent($"{DateTime.Now.Year} Hayri HABİP");
+            feed.Copyright = new TextSyndicationContent($"{DateTime.Now.Year} Hayri Habip");
             feed.Items = items;
 
             Byte[] fileByteArray;
@@ -119,7 +143,7 @@ namespace BLL
                     Encoding = Encoding.UTF8,
                     NewLineHandling = NewLineHandling.Entitize,
                     NewLineOnAttributes = true,
-                    Indent = true
+                    Indent = true,
                 };
 
                 using (var xmlWriter = XmlWriter.Create(stream, settings))

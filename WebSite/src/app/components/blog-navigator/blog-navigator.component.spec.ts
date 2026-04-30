@@ -1,3 +1,4 @@
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { BlogNavigatorComponent } from './blog-navigator.component';
@@ -9,6 +10,8 @@ describe('BlogNavigatorComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ BlogNavigatorComponent ]
+      ,
+      schemas: [NO_ERRORS_SCHEMA]
     })
     .compileComponents();
   });
@@ -16,6 +19,8 @@ describe('BlogNavigatorComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(BlogNavigatorComponent);
     component = fixture.componentInstance;
+    component.isForList = false;
+    component.navigator = {};
     fixture.detectChanges();
   });
 

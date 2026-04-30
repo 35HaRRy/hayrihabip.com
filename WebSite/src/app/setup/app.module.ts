@@ -1,14 +1,11 @@
-import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule, HttpClientXsrfModule } from '@angular/common/http';
+import { NgModule, provideBrowserGlobalErrorListeners } from '@angular/core';
+import { BrowserModule, provideClientHydration, withEventReplay } from '@angular/platform-browser';
 
 import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
-import { faHome, faUser, faBookmark, faLongArrowAltLeft, faLongArrowAltRight } from '@fortawesome/free-solid-svg-icons';
+import { faHome, faUser, faBookmark, faArrowLeftLong, faArrowRightLong } from '@fortawesome/free-solid-svg-icons';
 import { faTwitter, faGithub, faLinkedin } from '@fortawesome/free-brands-svg-icons';
 
 import { HighlightModule, HIGHLIGHT_OPTIONS } from 'ngx-highlightjs';
-import { NgxTweetModule } from "ngx-tweet";
-import { DisqusModule } from 'ngx-disqus';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -29,6 +26,9 @@ import { BlogListItemComponent } from '../components/blog-list-item/blog-list-it
 import { BlogPostInfoComponent } from '../components/blog-post-info/blog-post-info.component';
 import { BlogNavigatorComponent } from '../components/blog-navigator/blog-navigator.component';
 import { BlogPostItemComponent } from '../components/blog-post-item/blog-post-item.component';
+import { DisqusThreadComponent } from '../components/disqus-thread/disqus-thread.component';
+import { TweetEmbedComponent } from '../components/tweet-embed/tweet-embed.component';
+import { LoadingComponent } from '../components/loading/loading.component';
 
 @NgModule({
   declarations: [
@@ -40,24 +40,20 @@ import { BlogPostItemComponent } from '../components/blog-post-item/blog-post-it
     BlogListItemComponent,
     BlogPostInfoComponent,
     BlogNavigatorComponent,
+    LoadingComponent,
     AboutComponent,
+    DisqusThreadComponent,
+    TweetEmbedComponent,
   ],
   imports: [
-    BrowserModule.withServerTransition({
-      appId: 'serverApp'
-    }),
+    BrowserModule,
     AppRoutingModule,
-    HttpClientModule,
-    HttpClientXsrfModule.withOptions({
-      cookieName: '35.HH-Xsrf-Cookie',
-      headerName: '35.HH-Xsrf-Header',
-    }),
     FontAwesomeModule,
-    HighlightModule,
-    NgxTweetModule,
-    DisqusModule.forRoot('hayrihabip')
+    HighlightModule
   ],
   providers: [
+    provideBrowserGlobalErrorListeners(),
+    provideClientHydration(withEventReplay()),
     {
       provide: HIGHLIGHT_OPTIONS,
       useValue: {
@@ -82,6 +78,6 @@ import { BlogPostItemComponent } from '../components/blog-post-item/blog-post-it
 
 export class AppModule {
   constructor(private library: FaIconLibrary) {
-    library.addIcons(faHome, faUser, faBookmark, faLongArrowAltLeft, faLongArrowAltRight, faTwitter, faGithub, faLinkedin);
+    library.addIcons(faHome, faUser, faBookmark, faArrowLeftLong, faArrowRightLong, faTwitter, faGithub, faLinkedin);
   }
 }

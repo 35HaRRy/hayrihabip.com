@@ -1,0 +1,14 @@
+<div class="blog-post px-3 py-5 p-md-5">
+  <div class="container">
+    <div class="text-center">
+      <div class="d-flex flex-column align-items-center justify-content-center" [style.min-height.px]="minHeight">
+        <svg class="mb-3" [attr.width]="size" [attr.height]="size" viewBox="0 0 50 50" aria-hidden="true">
+          <circle cx="25" cy="25" r="20" fill="none" [attr.stroke]="color" stroke-width="4" stroke-linecap="round" stroke-dasharray="31.4 31.4" transform="rotate(-90 25 25)">
+            <animateTransform attributeName="transform" type="rotate" from="0 25 25" to="360 25 25" dur="1s" repeatCount="indefinite" />
+          </circle>
+        </svg>
+        <div class="loading-message">{{ message }}</div>
+      </div>
+    </div>
+  </div>
+</div>

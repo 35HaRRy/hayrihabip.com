@@ -4,6 +4,7 @@ import { BlogPostItem } from '../../pages/blog-post/blogPost';
 
 @Component({
   selector: 'app-blog-post-item',
+  standalone: false,
   templateUrl: './blog-post-item.component.html',
   styleUrls: [
     './blog-post-item.component.scss'

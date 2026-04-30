@@ -1,5 +1,4 @@
-
-<article class="blog-post px-3 py-5 p-md-5">
+<article *ngIf="!!post" class="blog-post px-3 py-5 p-md-5">
   <div class="container">
     <header class="blog-post-header">
       <h2 class="title mb-2">
@@ -14,8 +13,7 @@
     </div>
     <app-blog-navigator [navigator]="post.navigator" [isForList]="false"></app-blog-navigator>
     <div class="blog-comments-section">
-      <div id="disqus_thread"></div>
-      <disqus [identifier]="id"></disqus>
+      <app-disqus-thread [identifier]="id"></app-disqus-thread>
       <noscript>
         Please enable JavaScript to view the
         <a href="https://disqus.com/?ref_noscript" rel="nofollow">
@@ -25,5 +23,5 @@
     </div>
   </div>
 </article>
-
+<app-loading *ngIf="!post"></app-loading>
 <footer class="footer text-center py-2 theme-bg-dark"></footer>
