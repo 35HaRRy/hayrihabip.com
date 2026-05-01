@@ -17,33 +17,32 @@ process.on('uncaughtException', (error) => {
   console.error('ERROR', error);
 });
 
-app.use(
-  '/api',
-  createProxyMiddleware({
-    target: environment.apiUrl,
-    changeOrigin: true,
-    pathRewrite: {
-      '^/api': '',
-    },
-  }),
-);
-
-app.use(
-  express.static(browserDistFolder, {
-    maxAge: '1y',
-    index: false,
-    redirect: false,
-  }),
-);
-
-app.use((req, res, next) => {
-  angularApp
-    .handle(req)
-    .then((response) =>
-      response ? writeResponseToNodeResponse(response, res) : next(),
-    )
-    .catch(next);
-});
+app
+  .use(
+    '/api',
+    createProxyMiddleware({
+      target: environment.apiUrl,
+      changeOrigin: true,
+      pathRewrite: {
+        '^/api': '',
+      },
+    }),
+  )
+  .use(
+    express.static(browserDistFolder, {
+      maxAge: '1y',
+      index: false,
+      redirect: false,
+    }),
+  )
+  .use((req, res, next) => {
+    angularApp
+      .handle(req)
+      .then((response) =>
+        response ? writeResponseToNodeResponse(response, res) : next(),
+      )
+      .catch(next);
+  });
 
 if (isMainModule(import.meta.url) || process.env['pm_id']) {
   const port = Number(process.env['PORT'] ?? 4000);
