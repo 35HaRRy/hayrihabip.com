@@ -5,14 +5,14 @@ A personal monorepo for my website and related tooling.
 It contains three separate parts: the main Angular-based website, a .NET 8 API, and Python utilities for AI and bookmark workflows.
 
 ## Repository Structure
-- `WebSite/`: Angular 12 application with SSR support
+- `WebSite/`: Angular 21 application with SSR support
 - `API/`: ASP.NET Core backend for content and media-related endpoints
 - `AI/`: FastAPI-based Python utilities for bookmarks, RSS, and text-to-speech
 
 ## Dependencies
 ### WebSite
 - Node.js and npm
-- Angular 12, Angular Universal, Express
+- Angular 21, Angular Universal, Express
 - Additional packages such as Font Awesome, RxJS, ngx-disqus, ngx-highlightjs, and ngx-tweet
 
 ### API
