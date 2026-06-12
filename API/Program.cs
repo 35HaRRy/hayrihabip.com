@@ -28,8 +28,6 @@ namespace API
             {
                 NLog.LogManager.Shutdown();
             }
-
-            build.Run();
         }
 
         public static IHostBuilder BuildWebHost(string[] args) =>

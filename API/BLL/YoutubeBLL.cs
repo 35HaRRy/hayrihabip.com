@@ -109,7 +109,7 @@ namespace BLL
             }
             catch (Exception ex)
             {
-                logger.Debug("Getting audio url failed: {0}", ex.Message);
+                logger.Error("Getting audio url failed: {0}", ex.Message);
                 redirectUri = null;
             }
 
