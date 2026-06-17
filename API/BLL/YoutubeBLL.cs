@@ -103,7 +103,8 @@ namespace BLL
             string redirectUri;
             try
             {
-                var streamManifest = await _youtubeClient.Videos.Streams.GetManifestAsync(videoId);
+                var videoUrl = "https://youtube.com/watch?v=" + videoId;
+                var streamManifest = await _youtubeClient.Videos.Streams.GetManifestAsync(videoUrl);
                 var audios = streamManifest.GetAudioOnlyStreams().ToList();
                 redirectUri = audios.Count > 0 ? audios.MaxBy(audio => audio.Bitrate).Url : null;
             }
