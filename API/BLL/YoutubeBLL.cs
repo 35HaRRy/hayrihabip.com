@@ -100,17 +100,17 @@ namespace BLL
 
         public async Task<string> GetAudioAsync(string videoId)
         {
+                var videoUrl = string.Format(_videoUrlFormat, videoId);
             string redirectUri;
             try
             {
-                var videoUrl = "https://youtube.com/watch?v=" + videoId;
                 var streamManifest = await _youtubeClient.Videos.Streams.GetManifestAsync(videoUrl);
                 var audios = streamManifest.GetAudioOnlyStreams().ToList();
                 redirectUri = audios.Count > 0 ? audios.MaxBy(audio => audio.Bitrate).Url : null;
             }
             catch (Exception ex)
             {
-                logger.Error("Getting audio url failed: {0}", ex.Message);
+                logger.Error("Getting audio url ({0}) failed: {1}", videoUrl, ex.Message);
                 redirectUri = null;
             }
 
