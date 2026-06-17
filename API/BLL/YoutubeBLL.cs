@@ -12,6 +12,9 @@ using Google.Apis.YouTube.v3.Data;
 using Microsoft.Extensions.Configuration;
 using NLog;
 using YoutubeExplode;
+using YoutubeDLSharp;
+using YoutubeDLSharp.Metadata;
+using YoutubeDLSharp.Options;
 using Video = Google.Apis.YouTube.v3.Data.Video;
 using YouTubeService = Google.Apis.YouTube.v3.YouTubeService;
 
@@ -100,21 +103,108 @@ namespace BLL
 
         public async Task<string> GetAudioAsync(string videoId)
         {
-                var videoUrl = string.Format(_videoUrlFormat, videoId);
             string redirectUri;
             try
             {
-                var streamManifest = await _youtubeClient.Videos.Streams.GetManifestAsync(videoUrl);
+                var streamManifest = await _youtubeClient.Videos.Streams.GetManifestAsync(videoId);
                 var audios = streamManifest.GetAudioOnlyStreams().ToList();
                 redirectUri = audios.Count > 0 ? audios.MaxBy(audio => audio.Bitrate).Url : null;
             }
             catch (Exception ex)
             {
-                logger.Error("Getting audio url ({0}) failed: {1}", videoUrl, ex.Message);
+                logger.Error("Getting audio url failed: {0}", ex.Message);
                 redirectUri = null;
             }
 
             return redirectUri;
+        }
+
+        public async Task<YoutubeDownloadResult> GetAudioAsyncByDL(string videoId)
+        {
+            if (string.IsNullOrWhiteSpace(videoId))
+            {
+                throw new ArgumentException("Video id cannot be empty.", nameof(videoId));
+            }
+
+            var videoUrl = string.Format(_videoUrlFormat, videoId);
+            var youtubeDL = await CreateYoutubeDLAsync(videoId);
+
+            try
+            {
+                var videoDataResult = await youtubeDL.RunVideoDataFetch(videoUrl);
+                videoDataResult.EnsureSuccess();
+
+                var redirectUrl = GetBestMp4Url(videoDataResult.Data);
+                if (!string.IsNullOrWhiteSpace(redirectUrl))
+                {
+                    return YoutubeDownloadResult.FromRedirectUrl(redirectUrl);
+                }
+
+                var downloadResult = await youtubeDL.RunVideoDownload(
+                    videoUrl,
+                    format: "bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best",
+                    mergeFormat: DownloadMergeFormat.Mp4,
+                    recodeFormat: VideoRecodeFormat.Mp4
+                );
+                downloadResult.EnsureSuccess();
+
+                return YoutubeDownloadResult.FromFile(downloadResult.Data);
+            }
+            catch (Exception ex)
+            {
+                logger.Error("Getting video by youtube-dl failed: {0}", ex.Message);
+                throw;
+            }
+        }
+
+        private static async Task<YoutubeDL> CreateYoutubeDLAsync(string videoId)
+        {
+            var binariesFolder = Path.Combine(Path.GetTempPath(), "hayrihabip-ytdlp-bin");
+            var outputFolder = Path.Combine(
+                Path.GetTempPath(),
+                "hayrihabip-ytdlp-downloads",
+                $"{videoId}-{Guid.NewGuid():N}"
+            );
+
+            Directory.CreateDirectory(binariesFolder);
+            Directory.CreateDirectory(outputFolder);
+
+            await Utils.DownloadBinaries(directoryPath: binariesFolder);
+
+            return new YoutubeDL
+            {
+                YoutubeDLPath = Path.Combine(binariesFolder, Utils.YtDlpBinaryName),
+                FFmpegPath = Path.Combine(binariesFolder, Utils.FfmpegBinaryName),
+                OutputFolder = outputFolder,
+                OutputFileTemplate = "%(id)s.%(ext)s",
+                RestrictFilenames = true,
+                OverwriteFiles = true,
+                IgnoreDownloadErrors = false,
+            };
+        }
+
+        private static string GetBestMp4Url(VideoData videoData)
+        {
+            var directVideoUrl = videoData?.Formats?
+                .Where(format =>
+                    string.Equals(format.Extension, "mp4", StringComparison.OrdinalIgnoreCase)
+                    && !string.IsNullOrWhiteSpace(format.Url)
+                    && !string.Equals(format.VideoCodec, "none", StringComparison.OrdinalIgnoreCase)
+                    && !string.Equals(format.AudioCodec, "none", StringComparison.OrdinalIgnoreCase)
+                )
+                .OrderByDescending(format => format.Height.GetValueOrDefault())
+                .ThenByDescending(format => format.Bitrate.GetValueOrDefault())
+                .Select(format => format.Url)
+                .FirstOrDefault();
+
+            if (!string.IsNullOrWhiteSpace(directVideoUrl))
+            {
+                return directVideoUrl;
+            }
+
+            return string.Equals(videoData?.Extension, "mp4", StringComparison.OrdinalIgnoreCase)
+                ? videoData.Url
+                : null;
         }
 
         private async Task<IEnumerable<SyndicationItem>> GenerateItemsAsync(

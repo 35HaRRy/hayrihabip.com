@@ -10,5 +10,7 @@ namespace BLL
             bool isPopular);
 
         Task<string> GetAudioAsync(string videoId);
+
+        Task<YoutubeDownloadResult> GetAudioAsyncByDL(string videoId);
     }
 }
