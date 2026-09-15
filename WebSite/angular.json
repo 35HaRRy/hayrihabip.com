@@ -36,7 +36,12 @@
             "assets": [
               "src/favicon.ico",
               "src/assets",
-              "src/robots933456.txt"
+              "src/robots933456.txt",
+              {
+                "glob": "**/*",
+                "input": "src/zohoverify",
+                "output": "zohoverify"
+              }
             ],
             "styles": [
               "src/styles.scss"

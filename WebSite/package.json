@@ -13,7 +13,7 @@
     "prerender": "cross-env NODE_OPTIONS=--max_old_space_size=4096 ng build --output-mode=static"
   },
   "private": true,
-  "packageManager": "npm@11.11.0",
+  "packageManager": "pnpm@11.20.0",
   "dependencies": {
     "@angular/animations": "^21.2.0",
     "@angular/cdk": "^21.2.0",
