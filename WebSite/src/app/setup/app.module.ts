@@ -30,6 +30,9 @@ import { DisqusThreadComponent } from '../components/disqus-thread/disqus-thread
 import { TweetEmbedComponent } from '../components/tweet-embed/tweet-embed.component';
 import { LoadingComponent } from '../components/loading/loading.component';
 
+import { injectSpeedInsights } from '@vercel/speed-insights';
+
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -75,9 +78,10 @@ import { LoadingComponent } from '../components/loading/loading.component';
     AppComponent
   ]
 })
-
 export class AppModule {
   constructor(private library: FaIconLibrary) {
+    injectSpeedInsights();
+
     library.addIcons(faHome, faUser, faBookmark, faArrowLeftLong, faArrowRightLong, faTwitter, faGithub, faLinkedin);
   }
 }
