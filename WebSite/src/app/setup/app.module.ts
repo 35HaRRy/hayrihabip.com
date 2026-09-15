@@ -29,6 +29,7 @@ import { BlogPostItemComponent } from '../components/blog-post-item/blog-post-it
 import { DisqusThreadComponent } from '../components/disqus-thread/disqus-thread.component';
 import { TweetEmbedComponent } from '../components/tweet-embed/tweet-embed.component';
 import { LoadingComponent } from '../components/loading/loading.component';
+import { SpeedInsightsService } from '../services/speed-insights.service';
 
 @NgModule({
   declarations: [
@@ -77,7 +78,13 @@ import { LoadingComponent } from '../components/loading/loading.component';
 })
 
 export class AppModule {
-  constructor(private library: FaIconLibrary) {
+  constructor(
+    private library: FaIconLibrary,
+    private speedInsightsService: SpeedInsightsService
+  ) {
     library.addIcons(faHome, faUser, faBookmark, faArrowLeftLong, faArrowRightLong, faTwitter, faGithub, faLinkedin);
+    
+    // Initialize Vercel Speed Insights
+    speedInsightsService.initialize();
   }
 }
