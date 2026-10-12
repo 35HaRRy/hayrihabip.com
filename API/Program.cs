@@ -48,7 +48,8 @@ namespace API
                                     optional: false,
                                     reloadOnChange: true
                                 )
-                                .AddJsonFile($"appsettings.{environmentName}.json", optional: true);
+                                .AddJsonFile($"appsettings.{environmentName}.json", optional: true)
+                                .AddEnvironmentVariables();
                         })
                         .ConfigureLogging(logging =>
                         {

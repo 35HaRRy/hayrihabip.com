@@ -42,5 +42,32 @@ It contains three separate parts: the main Angular-based website, a .NET 8 API, 
 - API: `dotnet run --project API/API.csproj`
 - AI services: `cd AI && uvicorn main:app --reload`
 
+### API and MongoDB with Docker Compose
+Requires Docker with Compose and Linux containers. From the repository root:
+
+```sh
+docker compose -f DevOps/Compose/docker-compose.yml up --build -d
+```
+
+The API is available at `http://localhost:8080`. MongoDB is accessible only on
+the Compose network, and the API waits for its healthcheck before starting.
+MongoDB's `/data/db` is bind-mounted to the repository's `db-data/` directory;
+data survives container recreation. This configuration is for local development,
+not production: MongoDB authentication is disabled and the API binds to localhost.
+
+Stop the services without deleting database files:
+
+```sh
+docker compose -f DevOps/Compose/docker-compose.yml down
+```
+
+Validate the Compose configuration and check environment-variable precedence
+(the configuration check requires the .NET 8 SDK and runtime):
+
+```sh
+docker compose -f DevOps/Compose/docker-compose.yml config --quiet
+dotnet run --project DevOps/Compose/tests/ConfigurationCheck.csproj -- API
+```
+
 ## Notes
 This repository is organized as a small multi-service workspace, so each subproject can be developed independently.

@@ -278,6 +278,7 @@ __pycache__/
 # Local virtual environment
 .venv/
 .env
+.env.production
 
 # compiled output
 /dist
@@ -324,7 +325,8 @@ testem.log
 .DS_Store
 Thumbs.db
 
-
 .terraform
 
 .angular
+
+/db-data
