@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 import { BlogPost } from '../types/blog';
 import { BlogPostInfo } from '../components/BlogPostInfo';
 import { BlogPostItemRenderer } from '../components/BlogPostItemRenderer';

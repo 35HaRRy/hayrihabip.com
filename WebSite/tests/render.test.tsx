@@ -2,7 +2,7 @@ import React from 'react';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { renderToStaticMarkup } from 'react-dom/server';
-import { MemoryRouter } from 'react-router-dom';
+import { MemoryRouter } from 'react-router';
 import { BlogListPage } from '../src/pages/BlogListPage';
 import { BlogPostPage } from '../src/pages/BlogPostPage';
 import { ThemeProvider } from '../src/context/ThemeContext';

@@ -26,7 +26,7 @@ test('production SSR and proxy preserve data, routes and failure statuses', { ti
   await once(socket, 'listening');
   const port = socket.address().port;
   await new Promise((resolve) => socket.close(resolve));
-  const child = spawn(process.execPath, ['node_modules/@react-router/serve/bin.js', 'build/server/index.js'], {
+  const child = spawn(process.execPath, ['node_modules/@react-router/serve/bin.cjs', 'build/server/index.js'], {
     cwd: fileURLToPath(new URL('../', import.meta.url)),
     env: { ...process.env, API_URL: fixture.url, PORT: String(port), HOST: '127.0.0.1', NODE_ENV: 'production' },
     stdio: ['ignore', 'pipe', 'pipe'],
