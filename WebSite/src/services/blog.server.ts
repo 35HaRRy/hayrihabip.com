@@ -20,7 +20,10 @@ function post(value: unknown): value is BlogPost {
     && typeof value.info.readMin === 'string' && typeof value.info.commentCount === 'number'
     && (value.info.publishDate == null || typeof value.info.publishDate === 'string')
     && record(value.navigator)
-    && ['previousPostId', 'nextPostId'].every((key) => value.navigator![key] == null || typeof value.navigator![key] === 'string')
+    && ['previousPostId', 'nextPostId'].every((key) => {
+      const navigator = value.navigator as Record<string, unknown>;
+      return navigator[key] == null || typeof navigator[key] === 'string';
+    })
     && (value.body == null || (Array.isArray(value.body) && value.body.every((item) => bodyItem(item))));
 }
 

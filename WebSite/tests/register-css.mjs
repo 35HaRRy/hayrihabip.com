@@ -1,0 +1,6 @@
+import { registerHooks } from 'node:module';
+registerHooks({
+  load(url, context, nextLoad) {
+    return url.endsWith('.css') ? { format: 'module', source: 'export {};', shortCircuit: true } : nextLoad(url, context);
+  },
+});
