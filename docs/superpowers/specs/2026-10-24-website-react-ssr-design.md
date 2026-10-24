@@ -1,6 +1,6 @@
 # WebSite React SSR geçiş tasarımı
 
-Durum: Yaklaşım onaylandı; bu yazılı tasarım kullanıcı incelemesini bekliyor.
+Durum: Yaklaşım ve yazılı tasarım kullanıcı tarafından onaylandı.
 
 ## Amaç ve sınırlar
 
@@ -159,6 +159,6 @@ kullanılır; sunucu ve tarayıcı bağımsız zaman hesabıyla hydration farkı
 - [x] Amaç, sınırlar ve alternatifleri kullanıcıya sun.
 - [x] Mimari yaklaşım için kullanıcı onayı al.
 - [x] Yazılı tasarımı hazırla ve tutarlılık/kapsam incelemesini yap.
-- [ ] Kullanıcıdan bu yazılı tasarımın onayını al.
+- [x] Kullanıcıdan bu yazılı tasarımın onayını al.
 - [ ] Onaylanan tasarımdan uygulama planı çıkar ve yürütme yöntemini seçtir.
 - [ ] Onaylı planı uygula ve kabul kontrollerini çalıştır.
