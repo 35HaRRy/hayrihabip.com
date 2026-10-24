@@ -27,6 +27,16 @@ test('post renders title and body without browser globals', () => {
   const html = render(<BlogPostPage post={post} />);
   assert.match(html, /SSR fixture title/);
   assert.match(html, /SSR fixture body/);
+  // Disqus cannot parse Tailwind v4 oklch() colors; keep explicit rgb-compatible values.
+  assert.match(html, /id="disqus_thread"[^>]*style="color:#1e293b;background-color:#f8fafc"/);
+});
+test('post navigator shows neighbouring post titles instead of generic text', () => {
+  const html = render(<BlogPostPage post={{ ...post, navigator: {
+    previousPostId: '1123456789abcdef01234567', previousPostTitle: 'Previous fixture title',
+    nextPostId: '2123456789abcdef01234567', nextPostTitle: 'Next fixture title' } }} />);
+  assert.match(html, /Previous fixture title/);
+  assert.match(html, /Next fixture title/);
+  assert.doesNotMatch(html, /blog gönderisini oku/);
 });
 
 test('archive content renders icons, nested text, tables, media and escaped code', () => {

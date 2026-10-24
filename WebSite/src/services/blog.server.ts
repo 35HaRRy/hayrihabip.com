@@ -47,7 +47,7 @@ export async function getPosts(page: Page, signal?: AbortSignal): Promise<Pager<
   return data as unknown as Pager<BlogPost>;
 }
 
-export async function getPostById(id: string, signal?: AbortSignal): Promise<BlogPost> {
+async function fetchPost(id: string, signal?: AbortSignal): Promise<BlogPost> {
   const response = await fetchApi(`/BlogPosts/${parsePostId(id)}`, { signal });
   if (response.status === 404) throw new Response('Yazı bulunamadı.', { status: 404 });
   if (!response.ok) throw new Response('Yazı yüklenemedi.', { status: 502 });
@@ -57,4 +57,22 @@ export async function getPostById(id: string, signal?: AbortSignal): Promise<Blo
     throw new Response('API yazı yanıtı geçersiz.', { status: 502 });
   }
   return (data as unknown as APIResult<BlogPost>).Result!;
+}
+
+export async function getPostById(id: string, signal?: AbortSignal): Promise<BlogPost> {
+  const post = await fetchPost(id, signal);
+  const titleOf = async (neighborId?: string) => {
+    if (!neighborId) return undefined;
+    try {
+      return (await fetchPost(neighborId, signal)).title;
+    } catch (error) {
+      if (signal?.aborted) throw error;
+      return undefined;
+    }
+  };
+  const [previousPostTitle, nextPostTitle] = await Promise.all([
+    titleOf(post.navigator.previousPostId),
+    titleOf(post.navigator.nextPostId),
+  ]);
+  return { ...post, navigator: { ...post.navigator, previousPostTitle, nextPostTitle } };
 }

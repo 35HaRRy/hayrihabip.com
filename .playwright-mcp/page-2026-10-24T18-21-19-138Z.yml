@@ -1,0 +1,5 @@
+- alert [ref=f3e240]:
+  - heading "İçerik yüklenemedi" [level=1] [ref=f3e241]
+  - paragraph [ref=f3e242]: Lütfen daha sonra tekrar deneyin.
+  - link "Tüm Yazılara Dön" [ref=f3e243] [cursor=pointer]:
+    - /url: /index

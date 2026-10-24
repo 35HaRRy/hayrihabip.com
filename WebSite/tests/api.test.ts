@@ -5,6 +5,7 @@ import { once } from 'node:events';
 import { parsePage, parsePostId } from '../src/services/blogParams';
 import { forwardApi, fetchApi, getApiBaseUrl } from '../src/services/api.server';
 import { getPosts, getPostById } from '../src/services/blog.server';
+import { startFixture } from './fixture-api.mjs';
 
 const post = { id: '0123456789abcdef01234567', title: 'API title', intro: 'Intro', imageName: 'a.jpg',
   info: { regDate: '2026-01-01', publishDate: 'yesterday', readMin: '5 min', commentCount: 0 },
@@ -21,6 +22,15 @@ test('parses safe paging and post identities', () => {
   assert.equal(parsePostId('0'), 'latest');
   assert.equal(parsePostId(post.id), post.id);
   assert.throws(() => parsePostId('bad'), status(404));
+});
+
+test('neighbouring post titles are resolved for the navigator', async (t) => {
+  const fixture = await startFixture();
+  const previous = process.env.API_URL;
+  process.env.API_URL = fixture.url;
+  t.after(() => { if (previous === undefined) delete process.env.API_URL; else process.env.API_URL = previous; fixture.close(); });
+  const post = await getPostById('0123456789abcdef01234567');
+  assert.equal(post.navigator.nextPostTitle, 'Second fixture title');
 });
 
 test('real HTTP API contract and proxy preserve paths, bodies and errors', async (t) => {

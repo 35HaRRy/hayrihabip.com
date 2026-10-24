@@ -1,0 +1,8 @@
+{
+  "name": "Hayri Habip Blog",
+  "description": "Hayri Habip's personal tech blog about software development, Angular, cloud, and engineering, rewritten in React.",
+  "permissions": [],
+  "capabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
