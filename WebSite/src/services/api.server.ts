@@ -28,7 +28,7 @@ export async function fetchApi(path: string, init: RequestInit = {}): Promise<Re
   const timeout = AbortSignal.timeout(10_000);
   try {
     return await fetch(new URL(path.slice(1), base), {
-      ...init, redirect: 'error',
+      ...init, redirect: 'manual',
       signal: init.signal ? AbortSignal.any([init.signal, timeout]) : timeout,
     });
   } catch (error) {

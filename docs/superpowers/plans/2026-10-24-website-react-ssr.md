@@ -151,7 +151,7 @@ Emekliye ayrılacak aktif girişler: `WebSite/src/main.tsx`, `WebSite/index.html
 - [x] Task 3: İçerik güvenliği/eşitliği testleri red → green.
 - [x] Task 4: Debug/dağıtım ayarları kontrol edildi.
 - [x] Task 5: Production smoke ve browser kabul sonuçları kaydedildi: WebSite/tests/browser-checklist.md.
-- [ ] Son inceleme bulguları giderildi; gerçek API ve canlı Vercel için test edilen/bekleyen durumlar açıkça raporlandı.
+- [x] Son inceleme bulguları giderildi; gerçek API ve canlı Vercel için test edilen/bekleyen durumlar docs/superpowers/website-v2-verification.md içinde açıkça raporlandı.
 
 ## Plan öz-inceleme sonucu
 

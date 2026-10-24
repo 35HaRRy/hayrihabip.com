@@ -27,6 +27,9 @@ upstream responses to 503. Reset with `mode=ok` after each error test.
   widgets API at the network boundary and record both calls.
 - [x] Stub Disqus embed.js to call disqus_config and implement DISQUS.reset;
   navigate between posts and verify the real post IDs select their threads.
+- [x] Transform each tweet blockquote into an iframe, navigate to another post
+  with a different tweet in the same position, and verify the old iframe is
+  replaced. Runnable Playwright tool input: `tests/tweet-regression.js`.
 - [x] At 390×844, menu opens/closes with correct aria-expanded; palette changes
   persist; no horizontal document overflow.
 - [x] Throw SecurityError from the localStorage getter and block Twitter/Disqus:

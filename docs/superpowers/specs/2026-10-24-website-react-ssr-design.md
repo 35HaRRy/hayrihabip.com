@@ -160,5 +160,5 @@ kullanılır; sunucu ve tarayıcı bağımsız zaman hesabıyla hydration farkı
 - [x] Mimari yaklaşım için kullanıcı onayı al.
 - [x] Yazılı tasarımı hazırla ve tutarlılık/kapsam incelemesini yap.
 - [x] Kullanıcıdan bu yazılı tasarımın onayını al.
-- [ ] Onaylanan tasarımdan uygulama planı çıkar ve yürütme yöntemini seçtir.
-- [ ] Onaylı planı uygula ve kabul kontrollerini çalıştır.
+- [x] Onaylanan tasarımdan uygulama planı çıkar ve yürütme yöntemini seçtir.
+- [x] Onaylı planı uygula ve kabul kontrollerini çalıştır; canlı ortam sınırları doğrulama kaydında belirtildi.

@@ -32,7 +32,7 @@ test('real HTTP API contract and proxy preserve paths, bodies and errors', async
     const chunks = [];
     for await (const chunk of req) chunks.push(chunk);
     seen = { url: req.url!, method: req.method!, body: Buffer.concat(chunks).toString(), secret: req.headers['x-hop'] as string | undefined };
-    res.writeHead(code, { 'content-type': raw ? 'text/xml' : 'application/json', connection: 'close' });
+    res.writeHead(code, { 'content-type': raw ? 'text/xml' : 'application/json', connection: 'close', ...(code === 307 ? { location: '/redirected' } : {}) });
     res.end(raw ?? JSON.stringify(payload));
   }).listen(0, '127.0.0.1');
   await once(server, 'listening');
@@ -72,6 +72,11 @@ test('real HTTP API contract and proxy preserve paths, bodies and errors', async
   assert.equal(seen.method, 'POST'); assert.equal(seen.body, 'hello');
   const head = await forwardApi(new Request('http://site/api/echo', { method: 'HEAD' }));
   assert.equal(await head.text(), '');
+  code = 307; raw = 'Redirect body';
+  const redirected = await forwardApi(new Request('http://site/api/redirect'));
+  assert.equal(redirected.status, 307);
+  assert.equal(redirected.headers.get('location'), '/redirected');
+  assert.equal(await redirected.text(), 'Redirect body');
   await assert.rejects(fetchApi('https://evil.test'), status(502));
   const controller = new AbortController(); controller.abort();
   await assert.rejects(fetchApi('/BlogPosts', { signal: controller.signal }));
