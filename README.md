@@ -2,18 +2,19 @@
 
 ## Overview
 A personal monorepo for my website and related tooling.
-It contains three separate parts: the main Angular-based website, a .NET 8 API, and Python utilities for AI and bookmark workflows.
+It contains three separate parts: the React website, a .NET API, and Python utilities for AI and bookmark workflows.
 
 ## Repository Structure
-- `WebSite/`: Angular 21 application with SSR support
+- `WebSite/`: React 19 + React Router 7 application with request-time SSR
+- `WebSite/v1-archive/`: previous Angular application, preserved as reference
 - `API/`: ASP.NET Core backend for content and media-related endpoints
 - `AI/`: FastAPI-based Python utilities for bookmarks, RSS, and text-to-speech
 
 ## Dependencies
 ### WebSite
-- Node.js and npm
-- Angular 21, Angular Universal, Express
-- Additional packages such as Font Awesome, RxJS, ngx-disqus, ngx-highlightjs, and ngx-tweet
+- Node.js 22.22+ (24 LTS recommended) and npm
+- React 19, React Router 7, Vite, Tailwind, Font Awesome and highlight.js
+- See [WebSite setup, debug and Vercel deployment](WebSite/README.md).
 
 ### API
 - .NET 8 SDK
@@ -32,13 +33,14 @@ It contains three separate parts: the main Angular-based website, a .NET 8 API, 
 
 ## Setup
 1. Install the dependencies for the part you want to work on.
-2. Restore frontend packages with `cd WebSite && npm install`.
+2. Restore frontend packages with `cd WebSite && npm ci`; copy `.env.example` to `.env`.
 3. Restore the API with `dotnet restore API/API.csproj`.
 4. Install Python dependencies with `cd AI && poetry install`.
 5. Configure environment-specific settings in the relevant `.env` or `appsettings` files.
 
 ## Run
 - Website: `cd WebSite && npm run dev:ssr`
+- Website API target: `API_URL` in `WebSite/.env`; defaults to `http://localhost:5050` (VS Code API debug), or `http://localhost:8080` for Compose.
 - API: `dotnet run --project API/API.csproj`
 - AI services: `cd AI && uvicorn main:app --reload`
 
