@@ -1,5 +1,6 @@
 {
     "framework": "react-router",
     "installCommand": "npm ci",
-    "buildCommand": "npm run build"
+    "buildCommand": "npm run build",
+    "outputDirectory": "build"
 }
