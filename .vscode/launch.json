@@ -17,6 +17,37 @@
       "envFile": "${workspaceFolder}/DevOps/Compose/.env.production",
       "console": "integratedTerminal",
       "stopAtEntry": false
+    },
+    {
+      "name": "WebSite: SSR Debug",
+      "type": "node",
+      "request": "launch",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "dev:ssr"],
+      "cwd": "${workspaceFolder}/WebSite",
+      "console": "integratedTerminal",
+      "autoAttachChildProcesses": true,
+      "skipFiles": ["<node_internals>/**"],
+      "serverReadyAction": {
+        "pattern": "Local:.*(https?://[^\\s]+)",
+        "uriFormat": "%s",
+        "action": "debugWithChrome",
+        "webRoot": "${workspaceFolder}/WebSite"
+      }
+    },
+    {
+      "name": "WebSite: Browser Debug",
+      "type": "pwa-chrome",
+      "request": "launch",
+      "url": "http://127.0.0.1:3000",
+      "webRoot": "${workspaceFolder}/WebSite"
+    }
+  ],
+  "compounds": [
+    {
+      "name": "WebSite + API: Debug",
+      "configurations": ["API: Debug", "WebSite: SSR Debug"],
+      "stopAll": true
     }
   ]
 }

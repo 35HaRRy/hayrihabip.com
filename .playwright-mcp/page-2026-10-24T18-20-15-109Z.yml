@@ -1,0 +1,144 @@
+- generic [ref=e2]:
+  - banner [ref=e3]:
+    - generic [ref=e5]:
+      - link "Hayri HABİP software engineer" [ref=e6] [cursor=pointer]:
+        - /url: /index
+        - generic [ref=e10]:
+          - generic [ref=e11]: Hayri HABİP
+          - generic [ref=e12]: software engineer
+      - navigation [ref=e13]:
+        - link "Anasayfa" [ref=e14] [cursor=pointer]:
+          - /url: /index
+        - link "Son Yazı" [ref=e16] [cursor=pointer]:
+          - /url: /blog-post/latest
+        - link "Hakkımda" [ref=e17] [cursor=pointer]:
+          - /url: /about
+      - generic [ref=e18]:
+        - generic [ref=e19]:
+          - link "GitHub profili" [ref=e20] [cursor=pointer]:
+            - /url: https://github.com/35HaRRy
+          - link "LinkedIn profili" [ref=e23] [cursor=pointer]:
+            - /url: https://www.linkedin.com/in/hayri-habip/
+          - link "Twitter profili" [ref=e26] [cursor=pointer]:
+            - /url: https://twitter.com/35_HaRRy
+        - button "Renk teması seç" [ref=e31]
+  - main [ref=e34]:
+    - generic [ref=e35]:
+      - generic [ref=e37]:
+        - generic [ref=e38]:
+          - img "Hayri Habip" [ref=e39]
+          - generic "Aktif blog" [ref=e40]: ✓
+        - generic [ref=e41]:
+          - generic [ref=e42]:
+            - generic [ref=e43]:
+              - heading "Hayri HABİP" [level=1] [ref=e44]
+              - paragraph [ref=e45]: Software Engineer · Fullstack & AI Development
+            - generic [ref=e46]:
+              - link "GitHub" [ref=e47] [cursor=pointer]:
+                - /url: https://github.com/35HaRRy
+              - link "LinkedIn" [ref=e50] [cursor=pointer]:
+                - /url: https://www.linkedin.com/in/hayri-habip/
+              - link "Twitter" [ref=e53] [cursor=pointer]:
+                - /url: https://twitter.com/35_HaRRy
+          - paragraph [ref=e56]: Yazılımın her aşamasına meraklıyım. Herhangi bir soruna yazılımlar ile çözüm bulmaktan keyif alıyorum. Çizikli küçük kutucuklar peşinde, mimari deneyimlerimi ve öğrendiklerimi paylaşıyorum.
+          - generic [ref=e57]:
+            - generic [ref=e58]: .NET
+            - generic [aria-hidden] [ref=e59]: ·
+            - generic [ref=e60]: Angular
+            - generic [aria-hidden] [ref=e61]: ·
+            - generic [ref=e62]: React
+            - generic [aria-hidden] [ref=e63]: ·
+            - generic [ref=e64]: LLM
+            - generic [aria-hidden] [ref=e65]: ·
+            - generic [ref=e66]: RAG
+            - generic [aria-hidden] [ref=e67]: ·
+            - generic [ref=e68]: GenAI
+            - generic [aria-hidden] [ref=e69]: ·
+            - link "Benim hakkımda daha fazlası" [ref=e70] [cursor=pointer]:
+              - /url: /about
+      - generic [ref=e74]:
+        - generic [ref=e75]:
+          - heading "Son Yazılar" [level=2] [ref=e76]
+          - paragraph [ref=e77]: Teknik notlar, mimari kararlar ve yazılım deneyimleri
+        - generic [ref=e78]: 3 gönderi
+      - generic [ref=e79]:
+        - article [ref=e80]:
+          - generic [ref=e81]:
+            - link [ref=e82] [cursor=pointer]:
+              - /url: /blog-post/611826c7514f7965643bae8a
+              - img "Facebook ve Instagram paylaşımlarını alma" [ref=e83]
+            - generic [ref=e84]:
+              - generic [ref=e85]:
+                - generic [ref=e86]:
+                  - generic [ref=e87]: "Yayınlanma: 56 years ago"
+                  - generic [aria-hidden] [ref=e88]: ·
+                  - generic [ref=e89]: 2 min okuma
+                  - generic [aria-hidden] [ref=e90]: ·
+                  - generic [ref=e91]: 0 yorum
+                - heading [level=2] [ref=e92]:
+                  - link "Facebook ve Instagram paylaşımlarını alma" [ref=e93] [cursor=pointer]:
+                    - /url: /blog-post/611826c7514f7965643bae8a
+                - paragraph [ref=e94]: Verilen access token' a göre kullanıcıya ait tüm facebook veya instagram gönderilerini alın.
+              - link "Yazıyı Oku" [ref=e96] [cursor=pointer]:
+                - /url: /blog-post/611826c7514f7965643bae8a
+        - article [ref=e100]:
+          - generic [ref=e101]:
+            - link [ref=e102] [cursor=pointer]:
+              - /url: /blog-post/611ecd38ebbdf60b35d225da
+              - img "Angular, AWS, AKS kattım. Sana kek yaptım." [ref=e103]
+            - generic [ref=e104]:
+              - generic [ref=e105]:
+                - generic [ref=e106]:
+                  - generic [ref=e107]: "Yayınlanma: 56 years ago"
+                  - generic [aria-hidden] [ref=e108]: ·
+                  - generic [ref=e109]: 5 min okuma
+                  - generic [aria-hidden] [ref=e110]: ·
+                  - generic [ref=e111]: 0 yorum
+                - heading [level=2] [ref=e112]:
+                  - link "Angular, AWS, AKS kattım. Sana kek yaptım." [ref=e113] [cursor=pointer]:
+                    - /url: /blog-post/611ecd38ebbdf60b35d225da
+                - paragraph [ref=e114]: Bir süredir hem bir blog sitesi yapmak hem de Angular, AWS Lambda & serverless ve Azure AKS gibi teknolojileri denemek istiyordum. Bu teknolojileri denerken de blog' umun ilk yazı serisinin konusu çıkmış oldu.
+              - link "Yazıyı Oku" [ref=e116] [cursor=pointer]:
+                - /url: /blog-post/611ecd38ebbdf60b35d225da
+        - article [ref=e120]:
+          - generic [ref=e121]:
+            - link [ref=e122] [cursor=pointer]:
+              - /url: /blog-post/612b9f13e8f48d5bef808f6f
+              - 'img "WebSite - 2\": API Bağlantısı & AWS Lambda ile Yayına Alma" [ref=e123]'
+            - generic [ref=e124]:
+              - generic [ref=e125]:
+                - generic [ref=e126]:
+                  - generic [ref=e127]: "Yayınlanma: 56 years ago"
+                  - generic [aria-hidden] [ref=e128]: ·
+                  - generic [ref=e129]: 3 min okuma
+                  - generic [aria-hidden] [ref=e130]: ·
+                  - generic [ref=e131]: 0 yorum
+                - heading [level=2] [ref=e132]:
+                  - 'link "WebSite - 2\": API Bağlantısı & AWS Lambda ile Yayına Alma" [ref=e133] [cursor=pointer]':
+                    - /url: /blog-post/612b9f13e8f48d5bef808f6f
+                - paragraph [ref=e134]: "Blog sitemi yapım serüvenimi anlattığım yazı serimin 2. yazısı \"WebSite - 2\": API Bağlantısı & AWS Lambda ile Yayına Alma\""
+              - link "Yazıyı Oku" [ref=e136] [cursor=pointer]:
+                - /url: /blog-post/612b9f13e8f48d5bef808f6f
+  - contentinfo [ref=e140]:
+    - generic [ref=e141]:
+      - generic [ref=e142]:
+        - generic [ref=e143]:
+          - generic [ref=e144]: Hayri HABİP
+          - paragraph [ref=e145]: Çizikli küçük kutucuklar peşinde... Yazılımın her aşamasına meraklı bir yazılım mühendisi.
+        - generic [ref=e146]:
+          - link "Anasayfa" [ref=e147] [cursor=pointer]:
+            - /url: /index
+          - link "Son Yazı" [ref=e148] [cursor=pointer]:
+            - /url: /blog-post/latest
+          - link "Hakkımda" [ref=e149] [cursor=pointer]:
+            - /url: /about
+        - generic [ref=e150]:
+          - generic [ref=e151]:
+            - link "GitHub" [ref=e152] [cursor=pointer]:
+              - /url: https://github.com/35HaRRy
+            - link "LinkedIn" [ref=e155] [cursor=pointer]:
+              - /url: https://www.linkedin.com/in/hayri-habip/
+            - link "Twitter" [ref=e158] [cursor=pointer]:
+              - /url: https://twitter.com/35_HaRRy
+          - button "Sayfanın başına dön" [ref=e161]
+      - generic [ref=e164]: © 2026 Hayri HABİP · Tüm hakları saklıdır.

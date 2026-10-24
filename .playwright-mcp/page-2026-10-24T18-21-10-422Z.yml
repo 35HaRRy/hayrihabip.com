@@ -1,0 +1,140 @@
+- generic [ref=f3e2]:
+  - banner [ref=f3e3]:
+    - generic [ref=f3e5]:
+      - link "Hayri HABİP software engineer" [ref=f3e6] [cursor=pointer]:
+        - /url: /index
+        - generic [ref=f3e10]:
+          - generic [ref=f3e11]: Hayri HABİP
+          - generic [ref=f3e12]: software engineer
+      - navigation [ref=f3e13]:
+        - link "Anasayfa" [ref=f3e14] [cursor=pointer]:
+          - /url: /index
+        - link "Son Yazı" [ref=f3e16] [cursor=pointer]:
+          - /url: /blog-post/latest
+        - link "Hakkımda" [ref=f3e17] [cursor=pointer]:
+          - /url: /about
+      - generic [ref=f3e18]:
+        - generic [ref=f3e19]:
+          - link "GitHub profili" [ref=f3e20] [cursor=pointer]:
+            - /url: https://github.com/35HaRRy
+          - link "LinkedIn profili" [ref=f3e23] [cursor=pointer]:
+            - /url: https://www.linkedin.com/in/hayri-habip/
+          - link "Twitter profili" [ref=f3e26] [cursor=pointer]:
+            - /url: https://twitter.com/35_HaRRy
+        - button "Renk teması seç" [ref=f3e31]
+  - main [ref=f3e34]:
+    - generic [ref=f3e166]:
+      - link "Tüm Yazılar" [ref=f3e168] [cursor=pointer]:
+        - /url: /index
+      - article [ref=f3e172]:
+        - generic [ref=f3e173]:
+          - generic [ref=f3e174]:
+            - generic [ref=f3e175]: "Yayınlanma: 56 years ago"
+            - generic [aria-hidden] [ref=f3e176]: ·
+            - generic [ref=f3e177]: 2 min okuma
+            - generic [aria-hidden] [ref=f3e178]: ·
+            - generic [ref=f3e179]: 0 yorum
+          - heading "Facebook ve Instagram paylaşımlarını alma" [level=1] [ref=f3e180]
+          - generic [ref=f3e181]:
+            - img "Hayri Habip" [ref=f3e182]
+            - generic [ref=f3e183]:
+              - generic [ref=f3e184]: Hayri HABİP
+              - generic [ref=f3e185]: Software Engineer
+        - generic [ref=f3e186]:
+          - figure [ref=f3e187]:
+            - img "image" [ref=f3e188]
+          - paragraph [ref=f3e189]:
+            - text: Kişisel bir istekten dolayı Instagram' da ve Facebook' ta bir kullancıya ait tüm paylaşımları toplamam gerekiyordu. Tabiki bir yazılımcı bunu ilgili api' lere bağlanan bir uygulama ile yapardı. Bunun için şöyle
+            - strong [ref=f3e190]:
+              - link "çok ufacık bir uygulama" [ref=f3e191] [cursor=pointer]:
+                - /url: https://github.com/35HaRRy/FBInstagramAPI
+            - text: hazırladım.Bu uygulamaya istekte bulunulacak api' yi belirtikten sonra
+            - strong [ref=f3e192]: "\"access token\""
+            - text: değerini vererek çalışıyor. Tabi Instagram için "user id" ye de ihtiyacınız var. Ondan daha sonra bahsedeceğim. Bu değerleri girdikten sonra da uygulama api' ye kuyruk şeklinde isteklerde bulunarak kişiye ait tüm paylaşımları çekmeye başlıyor.
+          - heading "Facebook API" [level=1] [ref=f3e193]
+          - paragraph [ref=f3e194]:
+            - text: Hala bazı api' lerin dokümanlarını (biraz sonra bahsedeceğim Instagram' ınki gibi) okumak zor oluyor. Neyseki Facebook' unki böyle değil çünkü
+            - strong [ref=f3e195]:
+              - link "Graph API Explorer" [ref=f3e196] [cursor=pointer]:
+                - /url: https://developers.facebook.com/tools/explorer/
+            - text: aracı var. Kurcalamak istediğim paylaşımları bu araç ile deneyebildim.Bu araç ile yaptıklarımı tek bir görsel ile adım adım anlatayım.
+          - figure "Facebook Graph API Explorer post' lar" [ref=f3e197]:
+            - link [ref=f3e198] [cursor=pointer]:
+              - /url: https://developers.facebook.com/tools/explorer/?method=GET&path=me%2Fposts%3Ffields%3Dmessage%2Cpermalink_url&version=v11.0
+              - img "image" [ref=f3e199]
+          - list [ref=f3e201]:
+            - listitem [ref=f3e202]:
+              - text: İlk olarak kullanıcının post' larını alacağımız için izinlerden
+              - strong [ref=f3e203]: "\"user_posts\""
+              - text: u seçmemiz gerekiyor.
+            - listitem [ref=f3e204]:
+              - text: Bundan sonra
+              - strong [ref=f3e205]: "\"Generate Acces Token\""
+              - text: diyerek istediğimiz kullanıcı ile giriş yapabiliriz. Böylece bu kullanıcıya ait "access token" ı oluşacaktır. Bu "access token" daha sonra uygulamada kullanacağız.
+            - listitem [ref=f3e206]:
+              - text: Ardından post' ları almak için kullanacağımız linki girebiliriz. Burada endpoint' imizin tamamı
+              - strong [ref=f3e207]: "\"me/posts?fields=message,permalink_url\""
+              - text: oluyor.
+              - strong [ref=f3e208]: "\"fields\" query-string' i ile post' ların message ve link bilgilerini almak istediğimizi beliriyoruz."
+            - listitem [ref=f3e209]:
+              - text: Tabiki son olarak da
+              - strong [ref=f3e210]: "\"Submit\""
+              - text: butonu ile istekte bulunuyoruz.
+          - paragraph [ref=f3e211]: Console uygulmamda bu çıktıyı işleyecek döngünün içerisinde şöyle minik bir şablonum var.
+          - code [ref=f3e213]:
+            - text: media.data .Where(item => !string.IsNullOrEmpty(item.message)) .Select(item => $
+            - generic [ref=f3e214]: "\"id: {item.id}\\nurl: {item.permalink_url}\\n\\t{item.message}\""
+            - text: );
+          - listitem [ref=f3e215]:
+            - text: Burada api' den gelen dönüşün yapısından bahsedeyim. Yapı iki api için de kabaca aynı.
+            - strong [ref=f3e216]: "\"data\""
+            - text: ve
+            - strong [ref=f3e217]: "\"paging\""
+            - text: özelliklerinden oluşuyor. "data" da bir obje array' i ile post' lar oluyor. "paging" de de önceki veya sonraki liste için linkler oluyor. Ben sonraki liste için
+            - strong [ref=f3e218]: "\"paging.next\""
+            - text: değerini kullandım. Bu değer ile "GET" isteğinde bulunarak bir stack yapısında olduğu gibi sıradaki listenin değerlerini alabiliyorsunuz.
+          - heading "Instagram API" [level=1] [ref=f3e219]
+          - paragraph [ref=f3e220]:
+            - text: Buradaki işlem birkaç adımdan oluşuyor. Bu adımları
+            - link "Facebook dokümanından" [ref=f3e221] [cursor=pointer]:
+              - /url: https://developers.facebook.com/docs/instagram-basic-display-api/getting-started
+            - text: takip edebilirsiniz. Ben bu uygulamayı tek seferlik kullacağım için
+            - strong [ref=f3e222]: "\"Valid OAuth Redirect URIs\""
+            - text: ile bahsedilen adresi
+            - strong [ref=f3e223]: "\"http://localhost/test\""
+            - text: olarak tanımladım. Amacım sadece 4. adımdaki gibi test kullanıcısına ait
+            - strong [ref=f3e224]: code' u
+            - text: alabilmek.5. adımı da gerçekleştirdikten sonra
+            - strong [ref=f3e225]: "\"access_token\""
+            - text: değerlerini uygulamaya göndermek üzere not alabiliriz.
+          - figure "Örnek bir uygulama çıktısı" [ref=f3e226]:
+            - img "image" [ref=f3e227]
+        - navigation [ref=f3e229]:
+          - link "Sonraki Yazı Angular, AWS, AKS kattım. Sana kek yaptım." [ref=f3e231] [cursor=pointer]:
+            - /url: /blog-post/611ecd38ebbdf60b35d225da
+            - generic [ref=f3e232]: Sonraki Yazı
+            - generic [ref=f3e236]: Angular, AWS, AKS kattım. Sana kek yaptım.
+        - heading "Yorumlar" [level=3] [ref=f3e238]
+  - contentinfo [ref=f3e140]:
+    - generic [ref=f3e141]:
+      - generic [ref=f3e142]:
+        - generic [ref=f3e143]:
+          - generic [ref=f3e144]: Hayri HABİP
+          - paragraph [ref=f3e145]: Çizikli küçük kutucuklar peşinde... Yazılımın her aşamasına meraklı bir yazılım mühendisi.
+        - generic [ref=f3e146]:
+          - link "Anasayfa" [ref=f3e147] [cursor=pointer]:
+            - /url: /index
+          - link "Son Yazı" [ref=f3e148] [cursor=pointer]:
+            - /url: /blog-post/latest
+          - link "Hakkımda" [ref=f3e149] [cursor=pointer]:
+            - /url: /about
+        - generic [ref=f3e150]:
+          - generic [ref=f3e151]:
+            - link "GitHub" [ref=f3e152] [cursor=pointer]:
+              - /url: https://github.com/35HaRRy
+            - link "LinkedIn" [ref=f3e155] [cursor=pointer]:
+              - /url: https://www.linkedin.com/in/hayri-habip/
+            - link "Twitter" [ref=f3e158] [cursor=pointer]:
+              - /url: https://twitter.com/35_HaRRy
+          - button "Sayfanın başına dön" [ref=f3e161]
+      - generic [ref=f3e164]: © 2026 Hayri HABİP · Tüm hakları saklıdır.

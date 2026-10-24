@@ -1,0 +1,10 @@
+- generic [ref=f2e2]:
+  - banner [ref=f2e4]:
+    - heading [level=1] [ref=f2e5]:
+      - link "Hayri HABİP" [ref=f2e6] [cursor=pointer]:
+        - /url: /index
+    - navigation [ref=f2e7]:
+      - button "Toggle navigation" [ref=f2e8] [cursor=pointer]
+  - generic [ref=f2e11]:
+    - generic [ref=f2e12]: Yükleniyor...
+    - contentinfo [ref=f2e22]
