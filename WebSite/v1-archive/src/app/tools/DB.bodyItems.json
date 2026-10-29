@@ -815,6 +815,7 @@
   "children": [
     "export class HeaderComponent implements OnInit {\n  currentRoute = '/';\n\n  constructor(private route: Router) {\n  }\n\n  ngOnInit(): void {\n    this.route.events.forEach(event => {\n      if(event instanceof NavigationEnd)\n        this.currentRoute = event.url;\n    });\n  }\n}"
   ],
+  "sortIndex": 15,
   "id": "6acd57014dbe9ad673d4d0f9"
 },
 {

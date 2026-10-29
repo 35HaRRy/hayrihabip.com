@@ -3,6 +3,7 @@ import { BlogPost, Pager } from '../types/blog';
 import { BlogListItem } from '../components/BlogListItem';
 import { BlogNavigator } from '../components/BlogNavigator';
 import { AuthorHero } from '../components/AuthorHero';
+import { ProjectsSection } from '../components/ProjectsSection';
 
 export const BlogListPage: React.FC<{ pager: Pager<BlogPost> }> = ({ pager }) => {
   const posts = pager.Rows ?? [];
@@ -11,6 +12,7 @@ export const BlogListPage: React.FC<{ pager: Pager<BlogPost> }> = ({ pager }) =>
     <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
       {/* Software Engineer Author Hero */}
       <AuthorHero />
+      <ProjectsSection />
 
       {/* Section Header */}
       <div className="flex items-center justify-between mb-6 pb-3 border-b border-slate-200">

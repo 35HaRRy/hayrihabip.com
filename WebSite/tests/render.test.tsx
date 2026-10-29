@@ -23,6 +23,29 @@ test('list renders API data on server and preserves blog-list paging URL', () =>
   assert.match(html, /SSR fixture title/);
   assert.match(html, /href="\/blog-list\?pageIndex=1&amp;pageSize=25"/);
 });
+test('list introduces four projects with previews and accessible external links before posts', () => {
+  const html = render(<BlogListPage pager={pager} />);
+  const section = html.match(/<section[^>]*aria-labelledby="projects-title"[\s\S]*?<\/section>/)?.[0];
+  assert.ok(section, 'Project showcase is rendered on the list page');
+  assert.equal((section.match(/<article\b/g) ?? []).length, 4);
+  assert.equal((section.match(/<img\b/g) ?? []).length, 2);
+  assert.match(section, /data-icon="podcast"/);
+  assert.match(section, /data-icon="brain"/);
+  for (const url of [
+    'https://github.com/35HaRRy/aisomedo', 'http://aisomedo.hayrihabip.com/',
+    'https://github.com/35HaRRy/odi-bid-battle', 'https://odibb.hayrihabip.com/',
+    'https://github.com/35HaRRy/hayrihabip.com/blob/main/API/Controllers/PodcastsController.cs',
+    'https://api.hayrihabip.com/podcasts',
+    'https://github.com/35HaRRy/hayrihabip.com/tree/main/AI', 'http://ai.hayrihabip.com/',
+  ]) {
+    const anchor = section.match(new RegExp(`<a\\b[^>]*href="${url.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}"[^>]*>`))?.[0];
+    assert.ok(anchor, `Link exists: ${url}`);
+    assert.match(anchor, /target="_blank"/);
+    assert.match(anchor, /rel="noopener noreferrer"/);
+    assert.match(anchor, /aria-label="[^"]+"/);
+  }
+  assert.ok(html.indexOf('id="projects-title"') < html.indexOf('Son Yazılar'));
+});
 test('post renders title and body without browser globals', () => {
   const html = render(<BlogPostPage post={post} />);
   assert.match(html, /SSR fixture title/);
