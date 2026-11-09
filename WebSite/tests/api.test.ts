@@ -93,3 +93,12 @@ test('real HTTP API contract and proxy preserve paths, bodies and errors', async
   process.env.API_URL = 'file:///etc/passwd';
   assert.throws(() => getApiBaseUrl(), status(502));
 });
+
+test('a hanging upstream is cut off by the configured timeout', async (t) => {
+  const server = createServer().listen(0, '127.0.0.1');
+  await once(server, 'listening');
+  const previous = process.env.API_URL;
+  process.env.API_URL = `http://127.0.0.1:${(server.address() as { port: number }).port}`;
+  t.after(() => { if (previous === undefined) delete process.env.API_URL; else process.env.API_URL = previous; server.closeAllConnections(); server.close(); });
+  await assert.rejects(fetchApi('/BlogPosts', {}, 50), status(504));
+});

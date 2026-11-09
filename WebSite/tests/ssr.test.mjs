@@ -75,7 +75,8 @@ test('production SSR and proxy preserve data, routes and failure statuses', { ti
     assert.match(await response.text(), /İçerik yüklenemedi/);
   }
   fixture.state.mode = 'slow';
-  assert.equal((await get('/index')).status, 504);
+  response = await get('/index'); assert.equal(response.status, 200);
+  assert.match(await response.text(), /Updated fixture title/);
   fixture.state.mode = 'ok';
   response = await get('/api/BlogPosts/feed?x=1');
   assert.match(response.headers.get('content-type'), /^text\/xml(?:; charset=utf-8)?$/);

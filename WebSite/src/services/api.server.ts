@@ -19,13 +19,16 @@ export function getApiBaseUrl(): URL {
   }
 }
 
-export async function fetchApi(path: string, init: RequestInit = {}): Promise<Response> {
+// Render free instances take about a minute to wake from idle; stay below Cloudflare's 100s limit.
+const API_TIMEOUT_MS = 90_000;
+
+export async function fetchApi(path: string, init: RequestInit = {}, timeoutMs = API_TIMEOUT_MS): Promise<Response> {
   const base = getApiBaseUrl();
   // Never resolve caller-supplied absolute URLs or traversal outside the configured API root.
   if (!path.startsWith('/') || path.startsWith('//') || /\\|(?:^|\/)\.{1,2}(?:\/|\?|$)|%2e|%2f|%5c/i.test(path.split('?')[0])) {
     throw new Response('Geçersiz API yolu.', { status: 502 });
   }
-  const timeout = AbortSignal.timeout(10_000);
+  const timeout = AbortSignal.timeout(timeoutMs);
   try {
     return await fetch(new URL(path.slice(1), base), {
       ...init, redirect: 'manual',
