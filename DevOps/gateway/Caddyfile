@@ -1,0 +1,36 @@
+{
+	# Runtime errors also contain requests; access-log filtering alone is insufficient.
+	log default {
+		output stdout
+		format filter {
+			wrap json
+			fields {
+				request>uri delete
+				request>headers delete
+			}
+		}
+	}
+}
+
+# No public probe/admin port; application health is checked separately.
+http://127.0.0.1:8080 {
+	respond /health "ok" 200
+}
+
+# Keep signed query strings, cookies and origin secrets out of access logs.
+(access-log) {
+	log {
+		output stdout
+		format filter {
+			wrap json
+			fields {
+				request>uri delete
+				request>headers delete
+			}
+		}
+	}
+}
+
+# Define shared snippets before parsing application imports.
+# Application adapters mount their own files here. An empty glob is valid.
+import /etc/caddy/sites-enabled/*.caddy

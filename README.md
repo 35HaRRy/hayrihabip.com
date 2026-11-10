@@ -9,6 +9,7 @@ It contains three separate parts: the React website, a .NET API, and Python util
 - `WebSite/v1-archive/`: previous Angular application, preserved as reference
 - `API/`: ASP.NET Core backend for content and media-related endpoints
 - `AI/`: FastAPI-based Python utilities for bookmarks, RSS, and text-to-speech
+- `DevOps/gateway/`: [independent shared HTTPS gateway](DevOps/gateway/README.md); its CI artifact runs without a server checkout/build, and application routing stays in each application's repository.
 
 ## Dependencies
 ### WebSite
