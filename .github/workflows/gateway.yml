@@ -1,0 +1,28 @@
+name: Package shared gateway
+on:
+  push:
+    branches: [master]
+    paths: ['DevOps/gateway/**', '.github/workflows/gateway.yml']
+  pull_request:
+    paths: ['DevOps/gateway/**', '.github/workflows/gateway.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  package:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 -m unittest discover -s DevOps/gateway/tests -v
+      - run: bash -n DevOps/gateway/package.sh && shellcheck DevOps/gateway/package.sh
+      - name: Validate pinned Caddy configuration
+        run: |
+          docker run --rm -v "$PWD/DevOps/gateway/Caddyfile:/etc/caddy/Caddyfile:ro" \
+            caddy:2.11.4-alpine caddy validate --config /etc/caddy/Caddyfile
+      - run: bash DevOps/gateway/package.sh gateway-release
+      - uses: actions/upload-artifact@v4
+        with:
+          name: gateway-release-${{ github.sha }}
+          path: gateway-release/
+          if-no-files-found: error

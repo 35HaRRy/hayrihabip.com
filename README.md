@@ -9,6 +9,7 @@ It contains three separate parts: the React website, a .NET API, and Python util
 - `WebSite/v1-archive/`: previous Angular application, preserved as reference
 - `API/`: ASP.NET Core backend for content and media-related endpoints
 - `AI/`: FastAPI-based Python utilities for bookmarks, RSS, and text-to-speech
+- `DevOps/gateway/`: [independent shared HTTPS gateway](DevOps/gateway/README.md); its CI artifact runs without a server checkout/build, and application routing stays in each application's repository.
 
 ## Dependencies
 ### WebSite
@@ -42,7 +43,7 @@ It contains three separate parts: the React website, a .NET API, and Python util
 - Website: `cd WebSite && npm run dev:ssr`
 - Website API target: `API_URL` in `WebSite/.env`; defaults to `http://localhost:5050` (VS Code API debug), or `http://localhost:8080` for Compose.
 - API: `dotnet run --project API/API.csproj`
-- AI services: `cd AI && uvicorn main:app --reload`
+- AI services: `cd AI && uvicorn master:app --reload`
 
 ### API and MongoDB with Docker Compose
 Requires Docker with Compose and Linux containers. From the repository root:
