@@ -1,7 +1,7 @@
 name: Package shared gateway
 on:
   push:
-    branches: [main]
+    branches: [master]
     paths: ['DevOps/gateway/**', '.github/workflows/gateway.yml']
   pull_request:
     paths: ['DevOps/gateway/**', '.github/workflows/gateway.yml']
