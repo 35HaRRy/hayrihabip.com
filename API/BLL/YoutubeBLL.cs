@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.ServiceModel.Syndication;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Linq;
@@ -26,6 +27,8 @@ namespace BLL
 
         private const string _videoUrlFormat = "http://www.youtube.com/watch?v={0}";
         private const string _playlistUrlFormat = "http://www.youtube.com/playlist?list={0}";
+
+        private static readonly SemaphoreSlim _binaryDownloadLock = new(1, 1);
 
         private readonly IConfiguration _configuration;
         private readonly YoutubeClient _youtubeClient;
@@ -166,10 +169,19 @@ namespace BLL
                 $"{videoId}-{Guid.NewGuid():N}"
             );
 
-            Directory.CreateDirectory(binariesFolder);
-            Directory.CreateDirectory(outputFolder);
+            // DownloadBinaries checks for each file before writing it to the shared directory.
+            await _binaryDownloadLock.WaitAsync();
+            try
+            {
+                Directory.CreateDirectory(binariesFolder);
+                await Utils.DownloadBinaries(directoryPath: binariesFolder);
+            }
+            finally
+            {
+                _binaryDownloadLock.Release();
+            }
 
-            await Utils.DownloadBinaries(directoryPath: binariesFolder);
+            Directory.CreateDirectory(outputFolder);
 
             return new YoutubeDL
             {
