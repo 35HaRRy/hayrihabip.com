@@ -5,11 +5,17 @@ RUN dotnet restore API.csproj
 COPY . .
 RUN dotnet build API.csproj -c Debug -o /src/out
 
+FROM denoland/deno:bin-2.9.8 AS deno
+
 FROM mcr.microsoft.com/dotnet/aspnet:10.0
 # The yt-dlp executable downloaded by YoutubeDLSharp needs Python at runtime.
 RUN apt-get update \
     && apt-get install -y --no-install-recommends python3 \
     && rm -rf /var/lib/apt/lists/*
+
+# yt-dlp discovers Deno on PATH for YouTube JavaScript extraction.
+COPY --from=deno /deno /usr/local/bin/deno
+RUN deno --version
 
 WORKDIR /app
 COPY --from=builder /src/out .
